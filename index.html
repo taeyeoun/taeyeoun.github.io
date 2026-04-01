@@ -1,64 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Taeyeoun Park</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taeyeoun Park</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: white;
-      overflow: hidden;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    /* HERO */
-    .hero {
-      height: 100vh;
-      background: url('https://images.unsplash.com/photo-1518770660439-4636190af475') no-repeat center/cover;
-      display: flex;
-      align-items: center;
-    }
+body {
+  background: black;
+  font-family: Arial, sans-serif;
+  color: white;
+  overflow: hidden;
+}
 
-    .content {
-      padding-left: 60px;
-      z-index: 2;
-    }
+/* HERO SECTION */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 0 8%;
+}
 
-    h1 {
-      font-size: 60px;
-      margin: 0;
-    }
+/* LEFT TEXT */
+.text {
+  max-width: 40%;
+  z-index: 2;
+}
 
-    p {
-      font-size: 20px;
-      margin: 10px 0 30px;
-    }
+.text h1 {
+  font-size: 64px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
-    a {
-      padding: 10px 20px;
-      background: white;
-      color: black;
-      text-decoration: none;
-      margin-right: 10px;
-    }
+.text p {
+  font-size: 20px;
+  opacity: 0.7;
+}
 
+/* RIGHT IMAGE */
+.image {
+  position: relative;
+  width: 55%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
-  </style>
+.image img {
+  width: 100%;
+  max-width: 700px;
+  object-fit: cover;
+}
+
+/* LEFT DARK GRADIENT (텍스트 가독성용) */
+.gradient {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(to right, black 60%, transparent);
+  z-index: 1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .text {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .image {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .gradient {
+    display: none;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="hero">
-    <div class="content">
-      <h1>Taeyeoun Park</h1>
-      <p>FX Artist / 3D Designer</p>
+<div class="hero">
 
-      <a href="#">Showreel</a>
-      <a href="#">Work</a>
-    </div>
+  <!-- LEFT TEXT -->
+  <div class="text">
+    <h1>Taeyeoun Park</h1>
+    <p>FX Artist | Houdini | Simulation</p>
   </div>
 
+  <!-- RIGHT IMAGE -->
+  <div class="image">
+    <img src="Group 1.jpg" alt="hero image">
+  </div>
 
+  <!-- GRADIENT -->
+  <div class="gradient"></div>
+
+</div>
 
 </body>
 </html>
