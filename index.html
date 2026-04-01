@@ -2,13 +2,16 @@
 <html>
 <head>
   <title>Taeyeoun Park</title>
+
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       color: white;
+      overflow: hidden;
     }
 
+    /* HERO */
     .hero {
       height: 100vh;
       background: url('https://images.unsplash.com/photo-1518770660439-4636190af475') no-repeat center/cover;
@@ -18,6 +21,7 @@
 
     .content {
       padding-left: 60px;
+      z-index: 2;
     }
 
     h1 {
@@ -37,20 +41,63 @@
       text-decoration: none;
       margin-right: 10px;
     }
+
+    /* 물방울 커서 */
+    .lens {
+      position: fixed;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      backdrop-filter: blur(6px) saturate(140%);
+      -webkit-backdrop-filter: blur(6px) saturate(140%);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.2),
+        inset 0 1px 10px rgba(255,255,255,0.4),
+        inset 0 -10px 20px rgba(255,255,255,0.1);
+      z-index: 9999;
+    }
+
+    .lens::before {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      top: 20px;
+      left: 25px;
+      transform: rotate(-20deg);
+      filter: blur(2px);
+    }
   </style>
 </head>
 
 <body>
 
-<div class="hero">
-  <div class="content">
-    <h1>Taeyeoun Park</h1>
-    <p>FX Artist / 3D Designer</p>
+  <div class="hero">
+    <div class="content">
+      <h1>Taeyeoun Park</h1>
+      <p>FX Artist / 3D Designer</p>
 
-    <a href="#">Showreel</a>
-    <a href="#">Work</a>
+      <a href="#">Showreel</a>
+      <a href="#">Work</a>
+    </div>
   </div>
-</div>
+
+  <div class="lens"></div>
+
+  <script>
+    const lens = document.querySelector('.lens');
+
+    document.addEventListener('mousemove', (e) => {
+      lens.style.left = e.clientX + 'px';
+      lens.style.top = e.clientY + 'px';
+    });
+  </script>
 
 </body>
 </html>
