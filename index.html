@@ -42,37 +42,7 @@
       margin-right: 10px;
     }
 
-    /* 물방울 커서 */
-    .lens {
-      position: fixed;
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      backdrop-filter: blur(6px) saturate(140%);
-      -webkit-backdrop-filter: blur(6px) saturate(140%);
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow:
-        0 10px 30px rgba(0,0,0,0.2),
-        inset 0 1px 10px rgba(255,255,255,0.4),
-        inset 0 -10px 20px rgba(255,255,255,0.1);
-      z-index: 9999;
-    }
 
-    .lens::before {
-      content: "";
-      position: absolute;
-      width: 40px;
-      height: 20px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      top: 20px;
-      left: 25px;
-      transform: rotate(-20deg);
-      filter: blur(2px);
-    }
   </style>
 </head>
 
@@ -88,16 +58,7 @@
     </div>
   </div>
 
-  <div class="lens"></div>
 
-  <script>
-    const lens = document.querySelector('.lens');
-
-    document.addEventListener('mousemove', (e) => {
-      lens.style.left = e.clientX + 'px';
-      lens.style.top = e.clientY + 'px';
-    });
-  </script>
 
 </body>
 </html>
