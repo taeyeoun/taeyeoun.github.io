@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Taeyeoun Park Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taeyeoun Park</title>
 
   <style>
     @font-face {
       font-family: 'Glass Antiqua';
-      src: url('./fonts/GlassAntiqua-Regular.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
+      src: url('./fonts/GlassAntiqua-Regular.ttf');
     }
 
     @font-face {
       font-family: 'Noto Sans KR';
-      src: url('./fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
-      font-weight: 100 900;
-      font-style: normal;
+      src: url('./fonts/NotoSansKR-VariableFont_wght.ttf');
     }
 
     * {
@@ -26,150 +22,185 @@
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       background: #000;
       color: #fff;
       font-family: 'Noto Sans KR', sans-serif;
     }
 
-    .hero {
-      position: relative;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* NAV */
+    .nav {
+      position: fixed;
+      top: 0;
       width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 999;
+      overflow: hidden;
+    }
+
+    .nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #ff5a1f;
+      transform: translateY(-100%);
+      transition: 0.4s ease;
+      z-index: 0;
+    }
+
+    .nav-hover::before,
+    .nav-scrolled::before {
+      transform: translateY(0);
+    }
+
+    .nav-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-hover .nav-inner,
+    .nav-scrolled .nav-inner {
+      color: #111;
+    }
+
+    .logo {
+      font-family: 'Glass Antiqua';
+      font-size: 32px;
+    }
+
+    .nav-center {
+      display: flex;
+      gap: 40px;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* HERO */
+    .hero {
       height: 100vh;
+      position: relative;
       overflow: hidden;
     }
 
     .hero-img {
       position: absolute;
-      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center center;
+
+      /* 🔥 핵심: 기본은 중앙 */
+      object-position: center;
     }
 
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.18);
-      z-index: 1;
-    }
-
-    .nav {
-      position: absolute;
-      top: 28px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      display: flex;
-      gap: 40px;
-    }
-
-    .nav a {
-      color: rgba(255, 255, 255, 0.92);
-      text-decoration: none;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      letter-spacing: 0.02em;
+      background: rgba(0,0,0,0.2);
     }
 
     .hero-text {
       position: absolute;
       left: 6%;
-      top: 50%;
+      top: 55%;
       transform: translateY(-50%);
-      z-index: 3;
-      max-width: 900px;
+      z-index: 2;
     }
 
     .hero-text h1 {
-      font-family: 'Glass Antiqua', serif;
+      font-family: 'Glass Antiqua';
       font-size: clamp(110px, 10vw, 180px);
-      line-height: 0.92;
-      font-weight: 400;
-      color: #f5f2eb;
-      text-shadow: 0 6px 28px rgba(0, 0, 0, 0.22);
-      margin: 0;
     }
 
     .hero-text p {
-      margin-top: 18px;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: clamp(18px, 1.4vw, 24px);
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.92);
+      margin-top: 12px;
+      font-size: 20px;
     }
 
     .scroll-link {
       display: inline-block;
-      margin-top: 24px;
-      color: #fff;
-      text-decoration: none;
-      font-family: 'Noto Sans KR', sans-serif;
+      margin-top: 20px;
+      border-bottom: 1px solid white;
       font-size: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
-      padding-bottom: 4px;
     }
 
+    /* SECTION */
     .section {
       min-height: 100vh;
-      padding: 100px 8%;
+      padding: 120px 8%;
       background: #050505;
     }
 
     .section h2 {
-      font-family: 'Glass Antiqua', serif;
-      font-size: clamp(42px, 5vw, 72px);
-      margin-bottom: 24px;
-      color: #f5f2eb;
+      font-family: 'Glass Antiqua';
+      font-size: 60px;
+      margin-bottom: 20px;
     }
 
-    .section p {
-      max-width: 780px;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 18px;
-      line-height: 1.7;
-      color: rgba(255, 255, 255, 0.82);
-    }
-
-    @media (max-width: 900px) {
-      .nav {
-        top: 20px;
-        gap: 22px;
+    /* 📱 MOBILE 핵심 */
+    @media (max-width: 768px) {
+      .nav-center {
+        display: none;
       }
 
-      .hero-text {
-        left: 7%;
-        right: 7%;
-        top: 54%;
+      .logo {
+        font-size: 24px;
+      }
+
+      /* 🔥 여기 중요 */
+      .hero-img {
+        object-position: 80% center;
       }
 
       .hero-text h1 {
-        font-size: clamp(72px, 14vw, 110px);
+        font-size: 70px;
       }
 
       .hero-text p {
-        margin-top: 14px;
+        font-size: 16px;
       }
     }
   </style>
 </head>
+
 <body>
 
-  <section class="hero" id="top">
-    <img src="./hero.jpg" alt="Taeyeoun Park hero image" class="hero-img">
-    <div class="hero-overlay"></div>
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="logo">Taeyeoun</div>
 
-    <nav class="nav">
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
+      <div class="nav-center">
+        <a href="#top">Home</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="https://instagram.com/YOUR_ID" target="_blank">Instagram</a>
+        <a href="https://linkedin.com/in/YOUR_ID" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero" id="top">
+    <img src="./hero.jpg" class="hero-img">
+    <div class="hero-overlay"></div>
 
     <div class="hero-text">
       <h1>Taeyeoun Park</h1>
@@ -180,18 +211,43 @@
 
   <section class="section" id="work">
     <h2>Work</h2>
-    <p>Selected projects in Houdini, simulation, compositing, and digital effects.</p>
   </section>
 
   <section class="section" id="about">
     <h2>About</h2>
-    <p>I am a digital effects artist with a background in Houdini, compositing, and visual development.</p>
   </section>
 
   <section class="section" id="contact">
     <h2>Contact</h2>
-    <p>Email: tedparkfx241@gmail.com</p>
   </section>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const hero = document.getElementById('top');
+
+    function updateNav() {
+      const heroBottom = hero.offsetHeight;
+      if (window.scrollY > heroBottom - 80) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.remove('nav-scrolled');
+      }
+    }
+
+    nav.addEventListener('mouseenter', () => {
+      if (!nav.classList.contains('nav-scrolled')) {
+        nav.classList.add('nav-hover');
+      }
+    });
+
+    nav.addEventListener('mouseleave', () => {
+      if (!nav.classList.contains('nav-scrolled')) {
+        nav.classList.remove('nav-hover');
+      }
+    });
+
+    window.addEventListener('scroll', updateNav);
+  </script>
 
 </body>
 </html>
