@@ -20,6 +20,20 @@
       font-style: normal;
     }
 
+    :root {
+      --bg-black: #000;
+      --bg-dark: #050505;
+      --bg-card: #111;
+      --bg-light: #ececec;
+      --text-light: #f5f2eb;
+      --text-dark: #4a4a4a;
+      --text-muted: rgba(255, 255, 255, 0.78);
+      --line-light: rgba(255, 255, 255, 0.18);
+      --line-dark: rgba(0, 0, 0, 0.12);
+      --accent: #ff5a1f;
+      --radius: 18px;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -27,15 +41,17 @@
     }
 
     html {
+      scroll-behaviour: smooth;
       scroll-behavior: smooth;
     }
 
     body {
-      background: #000;
+      background: var(--bg-black);
       color: #fff;
       font-family: 'Noto Sans KR', sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      overflow-x: hidden;
     }
 
     a {
@@ -43,9 +59,21 @@
       color: inherit;
     }
 
-    img {
+    img,
+    video {
       display: block;
       max-width: 100%;
+    }
+
+    /* CURSOR CANVAS */
+    #cursorCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
     }
 
     /* NAV */
@@ -64,7 +92,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: #ff5a1f;
+      background: var(--accent);
       transform: translateY(-100%);
       transition: transform 0.42s ease;
       z-index: 0;
@@ -100,7 +128,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: #f5f2eb;
+      color: var(--text-light);
       transition: color 0.3s ease;
     }
 
@@ -134,7 +162,7 @@
     }
 
     .nav-right {
-      min-width: 220px;
+      min-width: 260px;
       justify-content: flex-end;
       gap: 20px;
     }
@@ -156,8 +184,9 @@
     .hero {
       position: relative;
       width: 100%;
-      height: 100vh;
+      min-height: 100vh;
       overflow: hidden;
+      background: #000;
     }
 
     .hero-img {
@@ -167,12 +196,15 @@
       height: 100%;
       object-fit: cover;
       object-position: center center;
+      transform: scale(1.02);
     }
 
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.16);
+      background:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.34)),
+        linear-gradient(to right, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.03) 45%, rgba(0, 0, 0, 0.18));
       z-index: 1;
     }
 
@@ -190,8 +222,8 @@
       font-size: clamp(108px, 10vw, 180px);
       line-height: 0.92;
       font-weight: 400;
-      color: #f5f2eb;
-      text-shadow: 0 6px 28px rgba(0, 0, 0, 0.22);
+      color: var(--text-light);
+      text-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
     }
 
     .hero-text p {
@@ -206,29 +238,37 @@
       font-size: 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.62);
       padding-bottom: 4px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .scroll-link:hover {
+      opacity: 0.72;
+      transform: translateY(-2px);
+    }
+
+    /* SECTIONS */
+    .section-heading {
+      font-family: 'Glass Antiqua', serif;
+      font-size: clamp(46px, 5vw, 76px);
+      color: var(--text-light);
+      margin-bottom: 18px;
+      line-height: 1;
+    }
+
+    .section-intro {
+      max-width: 760px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.82);
+      margin-bottom: 42px;
     }
 
     /* WORK */
     .work-section {
       min-height: 100vh;
       padding: 130px 8% 100px;
-      background: #050505;
+      background: var(--bg-dark);
       border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .work-heading {
-      font-family: 'Glass Antiqua', serif;
-      font-size: clamp(46px, 5vw, 76px);
-      color: #f5f2eb;
-      margin-bottom: 18px;
-    }
-
-    .work-intro {
-      max-width: 760px;
-      font-size: 18px;
-      line-height: 1.7;
-      color: rgba(255, 255, 255, 0.82);
-      margin-bottom: 42px;
     }
 
     .work-grid {
@@ -238,9 +278,9 @@
     }
 
     .work-card {
-      background: #111;
+      background: var(--bg-card);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
+      border-radius: var(--radius);
       overflow: hidden;
       transition: transform 0.25s ease, border-color 0.25s ease;
     }
@@ -263,7 +303,8 @@
     .work-info h3 {
       font-size: 20px;
       margin-bottom: 8px;
-      color: #f5f2eb;
+      color: var(--text-light);
+      font-weight: 500;
     }
 
     .work-info p {
@@ -275,8 +316,8 @@
     /* ABOUT */
     .about-section {
       min-height: 100vh;
-      background: #ececec;
-      color: #4a4a4a;
+      background: var(--bg-light);
+      color: var(--text-dark);
       padding: 120px 40px 30px;
       display: flex;
       flex-direction: column;
@@ -337,25 +378,47 @@
       text-align: right;
     }
 
+    .about-contact span {
+      display: block;
+      font-size: 16px;
+      margin-top: 8px;
+      color: #7a7a7a;
+    }
+
     /* CONTACT */
     .contact-section {
       min-height: 70vh;
       padding: 130px 8% 100px;
-      background: #050505;
+      background: var(--bg-dark);
       border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .contact-section h2 {
       font-family: 'Glass Antiqua', serif;
       font-size: clamp(46px, 5vw, 76px);
-      color: #f5f2eb;
+      color: var(--text-light);
       margin-bottom: 20px;
     }
 
-    .contact-section p,
-    .contact-section a {
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contact-info a,
+    .contact-info p {
       font-size: 20px;
       color: rgba(255, 255, 255, 0.84);
+    }
+
+    /* FOOTER */
+    .site-footer {
+      padding: 28px 8%;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: #030303;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
     }
 
     /* MOBILE */
@@ -444,6 +507,10 @@
         gap: 16px;
       }
 
+      .nav-right {
+        gap: 10px;
+      }
+
       .hero-img {
         object-position: 80% center;
       }
@@ -461,10 +528,6 @@
         font-size: 16px;
       }
 
-      .nav-right {
-        gap: 10px;
-      }
-
       .about-mail {
         font-size: 32px;
       }
@@ -472,10 +535,17 @@
       .about-bottom {
         gap: 12px;
       }
+
+      .contact-info a,
+      .contact-info p {
+        font-size: 17px;
+      }
     }
   </style>
 </head>
 <body>
+
+  <canvas id="cursorCanvas"></canvas>
 
   <nav class="nav" id="mainNav">
     <div class="nav-inner">
@@ -509,27 +579,27 @@
   </section>
 
   <section class="work-section" id="work">
-    <h2 class="work-heading">Work</h2>
-    <p class="work-intro">
+    <h2 class="section-heading">Work</h2>
+    <p class="section-intro">
       Selected projects in Houdini, simulation, compositing, and digital effects.
     </p>
 
     <div class="work-grid">
-      <div class="work-card">
-        <img src="./hero.png" alt="Project 1" class="work-thumb" />
+      <article class="work-card">
+        <img src="./hero.png" alt="Project One preview" class="work-thumb" />
         <div class="work-info">
           <h3>Project One</h3>
           <p>Procedural FX, Houdini simulation, compositing and final look development.</p>
         </div>
-      </div>
+      </article>
 
-      <div class="work-card">
-        <img src="./hero.png" alt="Project 2" class="work-thumb" />
+      <article class="work-card">
+        <img src="./hero.png" alt="Project Two preview" class="work-thumb" />
         <div class="work-info">
           <h3>Project Two</h3>
-          <p>Cinematic mood, lighting, visual storytelling and simulation-driven imagery.</p>
+          <p>Cinematic mood, lighting, visual storytelling and simulation driven imagery.</p>
         </div>
-      </div>
+      </article>
     </div>
   </section>
 
@@ -542,8 +612,8 @@
           Taeyeoun Park is a digital effects artist working across Houdini, simulation,
           compositing, and image making. His practice focuses on cinematic atmosphere,
           procedural workflows, and visually driven storytelling. With a background in
-          both digital effects and design, he explores ways of building images that feel
-          technically precise while remaining emotionally resonant.
+          both digital effects and design, he builds images that aim to feel technically
+          precise while still carrying emotion and presence.
         </p>
 
         <a href="mailto:tedparkfx241@gmail.com" class="about-mail" aria-label="Send email">✉</a>
@@ -552,14 +622,26 @@
 
     <div class="about-bottom">
       <div class="about-year">©2026</div>
-      <div class="about-contact">tedparkfx241@gmail.com</div>
+      <div class="about-contact">
+        tedparkfx241@gmail.com
+        <span>Currently based in Sweden</span>
+      </div>
     </div>
   </section>
 
   <section class="contact-section" id="contact">
     <h2>Contact</h2>
-    <p><a href="mailto:tedparkfx241@gmail.com">tedparkfx241@gmail.com</a></p>
+    <div class="contact-info">
+      <p><a href="mailto:tedparkfx241@gmail.com">tedparkfx241@gmail.com</a></p>
+      <p><a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a></p>
+      <p><a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+      <p>Currently based in Sweden</p>
+    </div>
   </section>
+
+  <footer class="site-footer">
+    Taeyeoun Park Portfolio
+  </footer>
 
   <script>
     const nav = document.getElementById('mainNav');
@@ -605,10 +687,72 @@
 
         window.scrollTo({
           top: top,
+          behaviour: 'smooth',
           behavior: 'smooth'
         });
       });
     });
+
+    /* CURSOR TRAIL */
+    const canvas = document.getElementById('cursorCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    let pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    window.addEventListener('mousemove', (e) => {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+
+      for (let i = 0; i < 4; i++) {
+        particles.push({
+          x: e.clientX,
+          y: e.clientY,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: (Math.random() - 0.5) * 1.2,
+          size: Math.random() * 16 + 6,
+          alpha: 0.28,
+          life: 1
+        });
+      }
+    });
+
+    function drawCursorTrail() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, index) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.size *= 0.965;
+        p.alpha *= 0.95;
+        p.life *= 0.97;
+
+        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+        gradient.addColorStop(0, `rgba(255,255,255,${p.alpha})`);
+        gradient.addColorStop(1, `rgba(255,255,255,0)`);
+
+        ctx.beginPath();
+        ctx.fillStyle = gradient;
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (p.size < 0.8 || p.alpha < 0.02) {
+          particles.splice(index, 1);
+        }
+      });
+
+      requestAnimationFrame(drawCursorTrail);
+    }
+
+    drawCursorTrail();
   </script>
 
 </body>
