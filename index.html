@@ -34,11 +34,18 @@
       background: #000;
       color: #fff;
       font-family: 'Noto Sans KR', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     a {
       text-decoration: none;
       color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
     }
 
     /* NAV */
@@ -53,18 +60,16 @@
       overflow: hidden;
     }
 
-    /* 오렌지 내려오는 배경 */
     .nav::before {
       content: "";
       position: absolute;
       inset: 0;
       background: #ff5a1f;
       transform: translateY(-100%);
-      transition: transform 0.4s ease;
+      transition: transform 0.42s ease;
       z-index: 0;
     }
 
-    /* 네비 아래 줄 */
     .nav::after {
       content: "";
       position: absolute;
@@ -112,21 +117,26 @@
     }
 
     .nav-left {
-      min-width: 180px;
+      min-width: 170px;
     }
 
     .logo {
       font-family: 'Glass Antiqua', serif;
       font-size: 30px;
       line-height: 1;
-      letter-spacing: 0.02em;
       white-space: nowrap;
     }
 
     .nav-center {
-      gap: 34px;
-      justify-content: center;
       flex: 1;
+      justify-content: center;
+      gap: 34px;
+    }
+
+    .nav-right {
+      min-width: 220px;
+      justify-content: flex-end;
+      gap: 20px;
     }
 
     .nav-center a,
@@ -140,12 +150,6 @@
     .nav-right a:hover,
     .logo:hover {
       opacity: 0.68;
-    }
-
-    .nav-right {
-      min-width: 220px;
-      justify-content: flex-end;
-      gap: 20px;
     }
 
     /* HERO */
@@ -168,14 +172,14 @@
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.18);
+      background: rgba(0, 0, 0, 0.16);
       z-index: 1;
     }
 
     .hero-text {
       position: absolute;
       left: 6%;
-      top: 55%;
+      top: 56%;
       transform: translateY(-50%);
       z-index: 2;
       max-width: 900px;
@@ -204,31 +208,30 @@
       padding-bottom: 4px;
     }
 
-    /* SECTION */
-    .section {
+    /* WORK */
+    .work-section {
       min-height: 100vh;
       padding: 130px 8% 100px;
       background: #050505;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .section h2 {
+    .work-heading {
       font-family: 'Glass Antiqua', serif;
       font-size: clamp(46px, 5vw, 76px);
-      margin-bottom: 22px;
       color: #f5f2eb;
+      margin-bottom: 18px;
     }
 
-    .section p {
-      max-width: 820px;
+    .work-intro {
+      max-width: 760px;
       font-size: 18px;
       line-height: 1.7;
       color: rgba(255, 255, 255, 0.82);
+      margin-bottom: 42px;
     }
 
-    /* WORK 예시 */
     .work-grid {
-      margin-top: 42px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 24px;
@@ -239,13 +242,18 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 18px;
       overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .work-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.18);
     }
 
     .work-thumb {
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
-      display: block;
     }
 
     .work-info {
@@ -264,7 +272,93 @@
       color: rgba(255, 255, 255, 0.72);
     }
 
-    /* 모바일 */
+    /* ABOUT */
+    .about-section {
+      min-height: 100vh;
+      background: #ececec;
+      color: #4a4a4a;
+      padding: 120px 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .about-top {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      column-gap: 60px;
+      align-items: start;
+      margin-top: 40px;
+    }
+
+    .about-label {
+      font-size: 28px;
+      font-weight: 400;
+      color: #8d8d8d;
+    }
+
+    .about-text-wrap {
+      max-width: 760px;
+    }
+
+    .about-text {
+      font-size: clamp(22px, 2vw, 34px);
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      color: #666;
+    }
+
+    .about-mail {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 48px;
+      font-size: 38px;
+      color: #666;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .about-mail:hover {
+      opacity: 0.6;
+      transform: translateY(-2px);
+    }
+
+    .about-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-top: 100px;
+      font-size: 22px;
+      color: #555;
+      gap: 20px;
+    }
+
+    .about-contact {
+      text-align: right;
+    }
+
+    /* CONTACT */
+    .contact-section {
+      min-height: 70vh;
+      padding: 130px 8% 100px;
+      background: #050505;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .contact-section h2 {
+      font-family: 'Glass Antiqua', serif;
+      font-size: clamp(46px, 5vw, 76px);
+      color: #f5f2eb;
+      margin-bottom: 20px;
+    }
+
+    .contact-section p,
+    .contact-section a {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    /* MOBILE */
     @media (max-width: 980px) {
       .nav {
         height: 76px;
@@ -300,20 +394,40 @@
       .work-grid {
         grid-template-columns: 1fr;
       }
+
+      .about-section {
+        padding: 100px 24px 24px;
+      }
+
+      .about-top {
+        grid-template-columns: 1fr;
+        row-gap: 32px;
+      }
+
+      .about-label {
+        font-size: 22px;
+      }
+
+      .about-text {
+        font-size: 22px;
+        line-height: 1.45;
+      }
+
+      .about-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 18px;
+      }
+
+      .about-contact {
+        text-align: left;
+      }
     }
 
     @media (max-width: 700px) {
-      .nav-center {
-        gap: 16px;
-      }
-
       .nav-center a,
       .nav-right a {
         font-size: 13px;
-      }
-
-      .logo {
-        display: none;
       }
 
       .nav-left {
@@ -327,14 +441,15 @@
       .nav-center {
         flex: 1;
         justify-content: flex-start;
+        gap: 16px;
       }
 
       .hero-img {
-        object-position: 80% center; /* 얼굴 쪽 우선 */
+        object-position: 80% center;
       }
 
       .hero-text {
-        top: 56%;
+        top: 58%;
       }
 
       .hero-text h1 {
@@ -344,6 +459,18 @@
 
       .hero-text p {
         font-size: 16px;
+      }
+
+      .nav-right {
+        gap: 10px;
+      }
+
+      .about-mail {
+        font-size: 32px;
+      }
+
+      .about-bottom {
+        gap: 12px;
       }
     }
   </style>
@@ -364,8 +491,8 @@
       </div>
 
       <div class="nav-right">
-        <a href="https://instagram.com/YOUR_INSTAGRAM" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
     </div>
   </nav>
@@ -381,9 +508,9 @@
     </div>
   </section>
 
-  <section class="section" id="work">
-    <h2>Work</h2>
-    <p>
+  <section class="work-section" id="work">
+    <h2 class="work-heading">Work</h2>
+    <p class="work-intro">
       Selected projects in Houdini, simulation, compositing, and digital effects.
     </p>
 
@@ -406,19 +533,32 @@
     </div>
   </section>
 
-  <section class="section" id="about">
-    <h2>About</h2>
-    <p>
-      I am a digital effects artist with a background in Houdini, compositing and visual development.
-      My work focuses on simulation, cinematic image-making and strong visual impact.
-    </p>
+  <section class="about-section" id="about">
+    <div class="about-top">
+      <div class="about-label">About</div>
+
+      <div class="about-text-wrap">
+        <p class="about-text">
+          Taeyeoun Park is a digital effects artist working across Houdini, simulation,
+          compositing, and image making. His practice focuses on cinematic atmosphere,
+          procedural workflows, and visually driven storytelling. With a background in
+          both digital effects and design, he explores ways of building images that feel
+          technically precise while remaining emotionally resonant.
+        </p>
+
+        <a href="mailto:tedparkfx241@gmail.com" class="about-mail" aria-label="Send email">✉</a>
+      </div>
+    </div>
+
+    <div class="about-bottom">
+      <div class="about-year">©2026</div>
+      <div class="about-contact">tedparkfx241@gmail.com</div>
+    </div>
   </section>
 
-  <section class="section" id="contact">
+  <section class="contact-section" id="contact">
     <h2>Contact</h2>
-    <p>
-      Email: tedparkfx241@gmail.com
-    </p>
+    <p><a href="mailto:tedparkfx241@gmail.com">tedparkfx241@gmail.com</a></p>
   </section>
 
   <script>
@@ -453,7 +593,6 @@
     window.addEventListener('load', updateNavState);
     window.addEventListener('resize', updateNavState);
 
-    /* 부드러운 스크롤 + 네비 높이 보정 */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         e.preventDefault();
