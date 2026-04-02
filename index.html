@@ -4,12 +4,16 @@
   <meta charset="UTF-8">
   <title>Portfolio</title>
 
+  <!-- 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
-      padding: 0;
+      font-family: 'Inter', sans-serif;
     }
 
+    /* HERO */
     .hero {
       position: relative;
       width: 100%;
@@ -24,6 +28,31 @@
       object-position: right center;
     }
 
+    /* ① 네비게이션 */
+    .nav {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      z-index: 3;
+      color: white;
+      font-size: 14px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: white;
+      opacity: 0.8;
+    }
+
+    .nav a:hover {
+      opacity: 1;
+    }
+
+    /* ② 중앙 텍스트 */
     .hero-text {
       position: absolute;
       left: 10%;
@@ -34,14 +63,18 @@
     }
 
     .hero-text h1 {
-      font-size: 48px;
+      font-family: 'Playfair Display', serif;
+      font-size: 64px;
       margin: 0;
     }
 
     .hero-text p {
-      font-size: 20px;
+      font-size: 18px;
+      margin-top: 10px;
+      opacity: 0.8;
     }
 
+    /* 어둡게 */
     .hero::after {
       content: "";
       position: absolute;
@@ -49,7 +82,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0,0,0,0.3);
     }
   </style>
 
@@ -58,12 +91,22 @@
 <body>
 
 <section class="hero">
-  <img src="hero.jpg" class="hero-img">
 
+  <img src="./hero.jpg" class="hero-img">
+
+  <!-- ① NAV -->
+  <div class="nav">
+    <a href="#">Work</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </div>
+
+  <!-- ② TEXT -->
   <div class="hero-text">
     <h1>Taeyeoun Park</h1>
     <p>FX Artist / Digital Effects</p>
   </div>
+
 </section>
 
 </body>
