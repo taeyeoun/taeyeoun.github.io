@@ -9,14 +9,14 @@
     @font-face {
       font-family: 'Glass Antiqua';
       src: url('./fonts/GlassAntiqua-Regular.ttf') format('truetype');
-      font-weight: normal;
+      font-weight: 400;
       font-style: normal;
     }
 
     @font-face {
       font-family: 'Noto Sans KR';
-      src: url('./fonts/NotoSansKR-Regular.otf') format('opentype');
-      font-weight: normal;
+      src: url('./fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
+      font-weight: 100 900;
       font-style: normal;
     }
 
@@ -55,7 +55,7 @@
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.28);
+      background: rgba(0, 0, 0, 0.18);
       z-index: 1;
     }
 
@@ -66,53 +66,53 @@
       transform: translateX(-50%);
       z-index: 3;
       display: flex;
-      gap: 42px;
+      gap: 40px;
     }
 
     .nav a {
       color: rgba(255, 255, 255, 0.92);
       text-decoration: none;
+      font-family: 'Noto Sans KR', sans-serif;
       font-size: 14px;
+      font-weight: 400;
       letter-spacing: 0.02em;
-      transition: opacity 0.2s ease;
-    }
-
-    .nav a:hover {
-      opacity: 0.7;
     }
 
     .hero-text {
       position: absolute;
-      left: 8%;
+      left: 6%;
       top: 50%;
       transform: translateY(-50%);
       z-index: 3;
-      max-width: 700px;
+      max-width: 900px;
     }
 
     .hero-text h1 {
       font-family: 'Glass Antiqua', serif;
-      font-size: clamp(72px, 9vw, 140px);
-      line-height: 0.95;
-      font-weight: normal;
+      font-size: clamp(110px, 10vw, 180px);
+      line-height: 0.92;
+      font-weight: 400;
       color: #f5f2eb;
-      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+      text-shadow: 0 6px 28px rgba(0, 0, 0, 0.22);
+      margin: 0;
     }
 
     .hero-text p {
       margin-top: 18px;
       font-family: 'Noto Sans KR', sans-serif;
-      font-size: clamp(16px, 1.4vw, 22px);
-      color: rgba(255, 255, 255, 0.9);
+      font-size: clamp(18px, 1.4vw, 24px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.92);
     }
 
     .scroll-link {
       display: inline-block;
-      margin-top: 28px;
+      margin-top: 24px;
       color: #fff;
       text-decoration: none;
+      font-family: 'Noto Sans KR', sans-serif;
       font-size: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
       padding-bottom: 4px;
     }
 
@@ -124,13 +124,14 @@
 
     .section h2 {
       font-family: 'Glass Antiqua', serif;
-      font-size: clamp(40px, 5vw, 72px);
+      font-size: clamp(42px, 5vw, 72px);
       margin-bottom: 24px;
       color: #f5f2eb;
     }
 
     .section p {
       max-width: 780px;
+      font-family: 'Noto Sans KR', sans-serif;
       font-size: 18px;
       line-height: 1.7;
       color: rgba(255, 255, 255, 0.82);
@@ -139,13 +140,17 @@
     @media (max-width: 900px) {
       .nav {
         top: 20px;
-        gap: 24px;
+        gap: 22px;
       }
 
       .hero-text {
         left: 7%;
         right: 7%;
-        top: 52%;
+        top: 54%;
+      }
+
+      .hero-text h1 {
+        font-size: clamp(72px, 14vw, 110px);
       }
 
       .hero-text p {
@@ -157,7 +162,7 @@
 <body>
 
   <section class="hero" id="top">
-    <img src="./hero.jpg" alt="Taeyeoun Park hero image" class="hero-img" />
+    <img src="./hero.jpg" alt="Taeyeoun Park hero image" class="hero-img">
     <div class="hero-overlay"></div>
 
     <nav class="nav">
@@ -175,26 +180,17 @@
 
   <section class="section" id="work">
     <h2>Work</h2>
-    <p>
-      Selected projects in Houdini, simulation, compositing, and digital effects.
-      This section can later be replaced with your videos, thumbnails, and project links.
-    </p>
+    <p>Selected projects in Houdini, simulation, compositing, and digital effects.</p>
   </section>
 
   <section class="section" id="about">
     <h2>About</h2>
-    <p>
-      I am a digital effects artist with a background in Houdini, compositing, and visual development.
-      My work focuses on cinematic atmosphere, simulation-driven visuals, and strong image composition.
-    </p>
+    <p>I am a digital effects artist with a background in Houdini, compositing, and visual development.</p>
   </section>
 
   <section class="section" id="contact">
     <h2>Contact</h2>
-    <p>
-      Email: tedparkfx241@gmail.com<br />
-      Vimeo and other links can be added here later.
-    </p>
+    <p>Email: tedparkfx241@gmail.com</p>
   </section>
 
 </body>
