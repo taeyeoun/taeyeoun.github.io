@@ -1,114 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taeyeoun Park</title>
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: black;
-  font-family: Arial, sans-serif;
-  color: white;
-  overflow: hidden;
-}
-
-/* HERO */
-.hero {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-}
-
-/* IMAGE FULLSCREEN */
-.hero img {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100vh;
-  width: auto;
-  min-width: 60%;
-  object-fit: cover;
-}
-
-/* LEFT DARK GRADIENT */
-.overlay {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(to right, black 70%, transparent);
-  z-index: 1;
-}
-
-/* TEXT */
-.text {
-  position: absolute;
-  left: 8%;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-}
-
-.text h1 {
-  font-size: 72px;
-  margin-bottom: 10px;
-}
-
-.text p {
-  font-size: 22px;
-  opacity: 0.7;
-}
-
-/* MOBILE */
-@media (max-width: 900px) {
-  .hero img {
-    width: 100%;
-    height: 100%;
-  }
-
-  .overlay {
-    width: 100%;
-    background: rgba(0,0,0,0.6);
-  }
-
-  .text {
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
-
-  .text h1 {
-    font-size: 42px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="hero">
+<section class="hero">
+  <img src="your-image.jpg" alt="hero" class="hero-img">
 
-  <!-- IMAGE -->
-  <img src="hero.jpg" alt="hero">
-
-  <!-- DARK GRADIENT -->
-  <div class="overlay"></div>
-
-  <!-- TEXT -->
-  <div class="text">
+  <div class="hero-text">
     <h1>Taeyeoun Park</h1>
-    <p>FX Artist | Houdini | Simulation</p>
+    <p>FX Artist / Digital Effects</p>
   </div>
-
-</div>
+</section>
 
 </body>
 </html>
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* HERO SECTION */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* 화면 전체 */
+  overflow: hidden;
+}
+
+/* 이미지 */
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔥 핵심 */
+  object-position: center;
+}
+
+/* 텍스트 */
+.hero-text {
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  z-index: 2;
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  margin: 0;
+}
+
+.hero-text p {
+  font-size: 20px;
+}
+
+/* 어둡게 오버레이 */
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
