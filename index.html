@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Taeyeoun Park</title>
 
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
     @font-face {
       font-family: 'Glass Antiqua';
@@ -27,9 +29,7 @@
       --bg-light: #ececec;
       --text-light: #f5f2eb;
       --text-dark: #4a4a4a;
-      --text-muted: rgba(255, 255, 255, 0.78);
-      --line-light: rgba(255, 255, 255, 0.18);
-      --line-dark: rgba(0, 0, 0, 0.12);
+      --text-soft: rgba(255, 255, 255, 0.78);
       --accent: #ff5a1f;
       --radius: 18px;
     }
@@ -41,7 +41,6 @@
     }
 
     html {
-      scroll-behaviour: smooth;
       scroll-behavior: smooth;
     }
 
@@ -65,7 +64,7 @@
       max-width: 100%;
     }
 
-    /* CURSOR CANVAS */
+    /* CURSOR */
     #cursorCanvas {
       position: fixed;
       inset: 0;
@@ -162,22 +161,40 @@
     }
 
     .nav-right {
-      min-width: 260px;
+      min-width: 220px;
       justify-content: flex-end;
-      gap: 20px;
+      gap: 16px;
     }
 
-    .nav-center a,
-    .nav-right a {
+    .nav-center a {
       font-size: 15px;
       font-weight: 450;
       transition: opacity 0.2s ease;
     }
 
+    .nav-right a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
     .nav-center a:hover,
-    .nav-right a:hover,
-    .logo:hover {
+    .logo:hover,
+    .nav-right a:hover {
       opacity: 0.68;
+    }
+
+    .nav-right a:hover {
+      transform: translateY(-2px);
+    }
+
+    .nav-right i {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.8;
     }
 
     /* HERO */
@@ -246,20 +263,18 @@
       transform: translateY(-2px);
     }
 
-    /* SECTIONS */
+    /* SHARED SECTION */
     .section-heading {
       font-family: 'Glass Antiqua', serif;
       font-size: clamp(46px, 5vw, 76px);
-      color: var(--text-light);
-      margin-bottom: 18px;
       line-height: 1;
+      margin-bottom: 18px;
     }
 
     .section-intro {
       max-width: 760px;
       font-size: 18px;
       line-height: 1.7;
-      color: rgba(255, 255, 255, 0.82);
       margin-bottom: 42px;
     }
 
@@ -269,6 +284,14 @@
       padding: 130px 8% 100px;
       background: var(--bg-dark);
       border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .work-section .section-heading {
+      color: var(--text-light);
+    }
+
+    .work-section .section-intro {
+      color: rgba(255, 255, 255, 0.82);
     }
 
     .work-grid {
@@ -318,24 +341,19 @@
       min-height: 100vh;
       background: var(--bg-light);
       color: var(--text-dark);
-      padding: 120px 40px 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      padding: 130px 8% 100px;
     }
 
-    .about-top {
+    .about-section .section-heading {
+      color: #666;
+      margin-bottom: 42px;
+    }
+
+    .about-layout {
       display: grid;
-      grid-template-columns: 1fr 1.4fr;
+      grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.4fr);
       column-gap: 60px;
       align-items: start;
-      margin-top: 40px;
-    }
-
-    .about-label {
-      font-size: 28px;
-      font-weight: 400;
-      color: #8d8d8d;
     }
 
     .about-text-wrap {
@@ -349,19 +367,31 @@
       color: #666;
     }
 
-    .about-mail {
+    .about-icons {
+      display: flex;
+      gap: 18px;
+      margin-top: 42px;
+    }
+
+    .about-icons a {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-top: 48px;
-      font-size: 38px;
+      width: 42px;
+      height: 42px;
       color: #666;
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .about-mail:hover {
+    .about-icons a:hover {
       opacity: 0.6;
       transform: translateY(-2px);
+    }
+
+    .about-icons i {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.8;
     }
 
     .about-bottom {
@@ -378,13 +408,6 @@
       text-align: right;
     }
 
-    .about-contact span {
-      display: block;
-      font-size: 16px;
-      margin-top: 8px;
-      color: #7a7a7a;
-    }
-
     /* CONTACT */
     .contact-section {
       min-height: 70vh;
@@ -393,23 +416,35 @@
       border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .contact-section h2 {
-      font-family: 'Glass Antiqua', serif;
-      font-size: clamp(46px, 5vw, 76px);
+    .contact-section .section-heading {
       color: var(--text-light);
-      margin-bottom: 20px;
     }
 
     .contact-info {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 18px;
     }
 
-    .contact-info a,
-    .contact-info p {
-      font-size: 20px;
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      width: fit-content;
       color: rgba(255, 255, 255, 0.84);
+      font-size: 20px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .contact-item:hover {
+      opacity: 0.72;
+      transform: translateY(-2px);
+    }
+
+    .contact-item i {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.8;
     }
 
     /* FOOTER */
@@ -442,7 +477,7 @@
 
       .nav-right {
         min-width: auto;
-        gap: 14px;
+        gap: 10px;
       }
 
       .hero-text {
@@ -459,21 +494,12 @@
       }
 
       .about-section {
-        padding: 100px 24px 24px;
+        padding: 100px 24px 80px;
       }
 
-      .about-top {
+      .about-layout {
         grid-template-columns: 1fr;
-        row-gap: 32px;
-      }
-
-      .about-label {
-        font-size: 22px;
-      }
-
-      .about-text {
-        font-size: 22px;
-        line-height: 1.45;
+        row-gap: 24px;
       }
 
       .about-bottom {
@@ -488,8 +514,7 @@
     }
 
     @media (max-width: 700px) {
-      .nav-center a,
-      .nav-right a {
+      .nav-center a {
         font-size: 13px;
       }
 
@@ -505,10 +530,6 @@
         flex: 1;
         justify-content: flex-start;
         gap: 16px;
-      }
-
-      .nav-right {
-        gap: 10px;
       }
 
       .hero-img {
@@ -528,16 +549,12 @@
         font-size: 16px;
       }
 
-      .about-mail {
-        font-size: 32px;
+      .about-text {
+        font-size: 22px;
+        line-height: 1.45;
       }
 
-      .about-bottom {
-        gap: 12px;
-      }
-
-      .contact-info a,
-      .contact-info p {
+      .contact-item {
         font-size: 17px;
       }
     }
@@ -561,8 +578,15 @@
       </div>
 
       <div class="nav-right">
-        <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:tedparkfx241@gmail.com" aria-label="Email">
+          <i data-lucide="mail"></i>
+        </a>
+        <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <i data-lucide="instagram"></i>
+        </a>
+        <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i data-lucide="linkedin"></i>
+        </a>
       </div>
     </div>
   </nav>
@@ -604,8 +628,10 @@
   </section>
 
   <section class="about-section" id="about">
-    <div class="about-top">
-      <div class="about-label">About</div>
+    <h2 class="section-heading">About</h2>
+
+    <div class="about-layout">
+      <div></div>
 
       <div class="about-text-wrap">
         <p class="about-text">
@@ -616,26 +642,44 @@
           precise while still carrying emotion and presence.
         </p>
 
-        <a href="mailto:tedparkfx241@gmail.com" class="about-mail" aria-label="Send email">✉</a>
+        <div class="about-icons">
+          <a href="mailto:tedparkfx241@gmail.com" aria-label="Email">
+            <i data-lucide="mail"></i>
+          </a>
+          <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i data-lucide="instagram"></i>
+          </a>
+          <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <i data-lucide="linkedin"></i>
+          </a>
+        </div>
       </div>
     </div>
 
     <div class="about-bottom">
       <div class="about-year">©2026</div>
-      <div class="about-contact">
-        tedparkfx241@gmail.com
-        <span>Currently based in Sweden</span>
-      </div>
+      <div class="about-contact">tedparkfx241@gmail.com</div>
     </div>
   </section>
 
   <section class="contact-section" id="contact">
-    <h2>Contact</h2>
+    <h2 class="section-heading">Contact</h2>
+
     <div class="contact-info">
-      <p><a href="mailto:tedparkfx241@gmail.com">tedparkfx241@gmail.com</a></p>
-      <p><a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a></p>
-      <p><a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
-      <p>Currently based in Sweden</p>
+      <a class="contact-item" href="mailto:tedparkfx241@gmail.com">
+        <i data-lucide="mail"></i>
+        <span>tedparkfx241@gmail.com</span>
+      </a>
+
+      <a class="contact-item" href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">
+        <i data-lucide="instagram"></i>
+        <span>Instagram</span>
+      </a>
+
+      <a class="contact-item" href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">
+        <i data-lucide="linkedin"></i>
+        <span>LinkedIn</span>
+      </a>
     </div>
   </section>
 
@@ -644,6 +688,8 @@
   </footer>
 
   <script>
+    lucide.createIcons();
+
     const nav = document.getElementById('mainNav');
     const hero = document.getElementById('top');
 
@@ -687,7 +733,6 @@
 
         window.scrollTo({
           top: top,
-          behaviour: 'smooth',
           behavior: 'smooth'
         });
       });
@@ -696,9 +741,7 @@
     /* CURSOR TRAIL */
     const canvas = document.getElementById('cursorCanvas');
     const ctx = canvas.getContext('2d');
-
     let particles = [];
-    let pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -709,9 +752,6 @@
     window.addEventListener('resize', resizeCanvas);
 
     window.addEventListener('mousemove', (e) => {
-      pointer.x = e.clientX;
-      pointer.y = e.clientY;
-
       for (let i = 0; i < 4; i++) {
         particles.push({
           x: e.clientX,
@@ -719,8 +759,7 @@
           vx: (Math.random() - 0.5) * 1.2,
           vy: (Math.random() - 0.5) * 1.2,
           size: Math.random() * 16 + 6,
-          alpha: 0.28,
-          life: 1
+          alpha: 0.28
         });
       }
     });
@@ -728,12 +767,13 @@
     function drawCursorTrail() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particles.forEach((p, index) => {
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+
         p.x += p.vx;
         p.y += p.vy;
         p.size *= 0.965;
         p.alpha *= 0.95;
-        p.life *= 0.97;
 
         const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
         gradient.addColorStop(0, `rgba(255,255,255,${p.alpha})`);
@@ -745,9 +785,9 @@
         ctx.fill();
 
         if (p.size < 0.8 || p.alpha < 0.02) {
-          particles.splice(index, 1);
+          particles.splice(i, 1);
         }
-      });
+      }
 
       requestAnimationFrame(drawCursorTrail);
     }
