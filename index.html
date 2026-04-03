@@ -27,6 +27,13 @@
       font-style: normal;
     }
 
+    @font-face {
+      font-family: 'UNDERTOWN';
+      src: url('./fonts/UNDERTOWN.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
     :root {
       --bg-black: #000000;
       --bg-dark: #050505;
@@ -210,30 +217,14 @@
         opacity: 1;
         transform: translateY(-2px);
       }
-      15% {
-        opacity: 0.94;
-      }
-      16% {
-        opacity: 1;
-      }
-      35% {
-        opacity: 0.9;
-      }
-      36% {
-        opacity: 1;
-      }
-      62% {
-        opacity: 0.96;
-      }
-      63% {
-        opacity: 1;
-      }
-      80% {
-        opacity: 0.92;
-      }
-      81% {
-        opacity: 1;
-      }
+      15% { opacity: 0.94; }
+      16% { opacity: 1; }
+      35% { opacity: 0.9; }
+      36% { opacity: 1; }
+      62% { opacity: 0.96; }
+      63% { opacity: 1; }
+      80% { opacity: 0.92; }
+      81% { opacity: 1; }
     }
 
     /* HERO */
@@ -274,12 +265,13 @@
     }
 
     .hero-text h1 {
-      font-family: 'Glass Antiqua', serif;
-      font-size: clamp(124px, 11vw, 196px);
+      font-family: 'UNDERTOWN', serif;
+      font-size: clamp(122px, 10.8vw, 188px);
       line-height: 0.9;
       font-weight: 400;
       color: var(--text-light);
       text-shadow: 0 10px 34px rgba(0, 0, 0, 0.34);
+      letter-spacing: 0.01em;
     }
 
     .hero-text p {
@@ -304,10 +296,11 @@
 
     /* SHARED SECTION */
     .section-heading {
-      font-family: 'Glass Antiqua', serif;
-      font-size: clamp(46px, 5vw, 76px);
+      font-family: 'UNDERTOWN', serif;
+      font-size: clamp(56px, 5.4vw, 88px);
       line-height: 1;
       margin-bottom: 18px;
+      letter-spacing: 0.01em;
     }
 
     .section-intro {
