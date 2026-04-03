@@ -84,7 +84,8 @@
 
     img,
     video,
-    iframe {
+    iframe,
+    canvas {
       display: block;
       max-width: 100%;
     }
@@ -667,7 +668,7 @@
 
     .interactive-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.62fr);
+      grid-template-columns: minmax(0, 1.22fr) minmax(300px, 0.6fr);
       gap: 24px;
       align-items: start;
     }
@@ -681,19 +682,33 @@
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: var(--shadow-soft);
+      isolation: isolate;
     }
 
     .cam-video {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       background: #000;
+      transform: scaleX(-1);
+    }
+
+    .particle-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
     }
 
     .cam-overlay {
       position: absolute;
       inset: 0;
       pointer-events: none;
+      z-index: 3;
       background:
         linear-gradient(to top, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.06) 38%, rgba(0, 0, 0, 0.12));
     }
@@ -702,7 +717,7 @@
       position: absolute;
       left: 16px;
       bottom: 16px;
-      z-index: 2;
+      z-index: 4;
       font-size: 13px;
       letter-spacing: 0.04em;
       color: rgba(255, 255, 255, 0.88);
@@ -1081,7 +1096,6 @@
 
       .cam-btn {
         width: 100%;
-        justify-content: center;
         text-align: center;
       }
     }
@@ -1146,7 +1160,6 @@
     <div class="work-grid">
       <article
         class="project-card"
-        data-project="crowd"
         data-vimeo-id="1079184882"
         data-title="Crowd Showreel"
         data-type="Showreel"
@@ -1174,7 +1187,6 @@
 
       <article
         class="project-card"
-        data-project="fx"
         data-vimeo-id="1079183992"
         data-title="FX Showreel"
         data-type="Showreel"
@@ -1205,29 +1217,23 @@
   <section class="interactive-section" id="interactive">
     <h2 class="section-heading">Interactive Lab</h2>
     <p class="section-intro">
-      A simple live camera test space for laptop webcams and mobile selfie cameras.
-      Allow camera access to preview a real time feed directly in the page.
+      Live camera test with face based particle repulsion. The balls move away from the detected face area,
+      so you can quickly test the interactive direction on both laptop webcams and mobile selfie cameras.
     </p>
 
     <div class="interactive-layout">
-      <div class="cam-stage">
-        <video
-          id="labCamera"
-          class="cam-video"
-          autoplay
-          playsinline
-          muted
-        ></video>
+      <div class="cam-stage" id="camStage">
+        <video id="labCamera" class="cam-video" autoplay playsinline muted></video>
+        <canvas id="particleCanvas" class="particle-canvas"></canvas>
         <div class="cam-overlay"></div>
         <div class="cam-status" id="camStatus">Camera idle</div>
       </div>
 
       <div class="interactive-panel">
-        <h3>Live Camera Test</h3>
+        <h3>Face Repulsion Test</h3>
         <p>
-          This section is for quick testing before adding effects later.
-          On phones, it tries to use the front camera first.
-          On laptops, it uses the available webcam.
+          This test uses a live camera feed and detects the face position.
+          Balls inside the camera frame are pushed away from the detected face area and slowly settle back when the face moves away.
         </p>
 
         <div class="cam-controls">
@@ -1237,8 +1243,7 @@
         </div>
 
         <p class="cam-note">
-          For camera access, test on localhost or a secure hosted site.
-          If permission is blocked, the live feed will not start.
+          Use localhost or a secure hosted site for camera access. The mobile version tries the front camera first.
         </p>
       </div>
     </div>
@@ -1292,7 +1297,7 @@
     <div class="project-backdrop" id="projectBackdrop"></div>
 
     <div class="project-shell">
-      <div class="project-panel" id="projectPanel">
+      <div class="project-panel">
         <div class="project-topbar">
           <div class="project-meta-mini" id="projectMetaMini">Project</div>
           <button class="project-close" id="projectClose" aria-label="Close project">Close</button>
@@ -1331,7 +1336,12 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import {
+      FaceDetector,
+      FilesetResolver
+    } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+
     const nav = document.getElementById('mainNav');
     const hero = document.getElementById('top');
     const mobileToggle = document.getElementById('mobileToggle');
@@ -1352,14 +1362,26 @@
     const projectVimeoLink = document.getElementById('projectVimeoLink');
 
     const labCamera = document.getElementById('labCamera');
+    const particleCanvas = document.getElementById('particleCanvas');
+    const camStage = document.getElementById('camStage');
     const camStatus = document.getElementById('camStatus');
     const startCameraBtn = document.getElementById('startCameraBtn');
     const switchCameraBtn = document.getElementById('switchCameraBtn');
     const stopCameraBtn = document.getElementById('stopCameraBtn');
 
+    const ctx = particleCanvas.getContext('2d');
+
     let lastFocusedCard = null;
     let currentCameraStream = null;
     let currentFacingMode = 'user';
+    let faceDetector = null;
+    let detectorReady = false;
+    let animationId = null;
+    let detectionIntervalId = null;
+    let currentFace = null;
+
+    const particles = [];
+    const particleCount = window.innerWidth < 640 ? 26 : 42;
 
     function updateNavState() {
       const heroBottom = hero.offsetTop + hero.offsetHeight;
@@ -1436,23 +1458,15 @@
 
     function openProject(card) {
       const vimeoId = card.dataset.vimeoId;
-      const title = card.dataset.title;
-      const type = card.dataset.type;
-      const description = card.dataset.description;
-      const role = card.dataset.role;
-      const tools = card.dataset.tools;
-      const year = card.dataset.year;
-      const link = card.dataset.link;
-
       lastFocusedCard = card;
 
-      projectMetaMini.textContent = type;
-      projectTitle.textContent = title;
-      projectDescription.textContent = description;
-      projectRole.textContent = role;
-      projectTools.textContent = tools;
-      projectYear.textContent = year;
-      projectVimeoLink.href = link;
+      projectMetaMini.textContent = card.dataset.type;
+      projectTitle.textContent = card.dataset.title;
+      projectDescription.textContent = card.dataset.description;
+      projectRole.textContent = card.dataset.role;
+      projectTools.textContent = card.dataset.tools;
+      projectYear.textContent = card.dataset.year;
+      projectVimeoLink.href = card.dataset.link;
       projectPlayer.innerHTML = buildProjectPlayer(vimeoId);
 
       projectOverlay.classList.add('open');
@@ -1489,7 +1503,169 @@
     projectClose.addEventListener('click', closeProject);
     projectBackdrop.addEventListener('click', closeProject);
 
-    /* CAMERA LAB */
+    function resizeCanvas() {
+      const rect = camStage.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+
+      particleCanvas.width = rect.width * dpr;
+      particleCanvas.height = rect.height * dpr;
+      particleCanvas.style.width = rect.width + 'px';
+      particleCanvas.style.height = rect.height + 'px';
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function createParticles() {
+      particles.length = 0;
+      const width = camStage.clientWidth || 800;
+      const height = camStage.clientHeight || 450;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          homeX: Math.random() * width,
+          homeY: Math.random() * height,
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          radius: Math.random() * 7 + 5
+        });
+      }
+    }
+
+    function drawParticles() {
+      const width = camStage.clientWidth || 800;
+      const height = camStage.clientHeight || 450;
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach((p) => {
+        if (currentFace) {
+          const dx = p.x - currentFace.x;
+          const dy = p.y - currentFace.y;
+          const distance = Math.sqrt(dx * dx + dy * dy) || 0.001;
+
+          if (distance < currentFace.radius) {
+            const force = (1 - distance / currentFace.radius) * 1.9;
+            p.vx += (dx / distance) * force;
+            p.vy += (dy / distance) * force;
+          }
+        }
+
+        p.vx += (p.homeX - p.x) * 0.006;
+        p.vy += (p.homeY - p.y) * 0.006;
+
+        p.vx *= 0.93;
+        p.vy *= 0.93;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -30) p.x = width + 30;
+        if (p.x > width + 30) p.x = -30;
+        if (p.y < -30) p.y = height + 30;
+        if (p.y > height + 30) p.y = -30;
+
+        const glow = currentFace ? 0.14 : 0.09;
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255, 255, 255, ${glow})`;
+        ctx.arc(p.x, p.y, p.radius * 1.7, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.78)';
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function animateParticles() {
+      drawParticles();
+      animationId = requestAnimationFrame(animateParticles);
+    }
+
+    async function setupFaceDetector() {
+      if (detectorReady) return;
+
+      camStatus.textContent = 'Loading face detector...';
+
+      const vision = await FilesetResolver.forVisionTasks(
+        'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm'
+      );
+
+      faceDetector = await FaceDetector.createFromOptions(vision, {
+        baseOptions: {
+          modelAssetPath:
+            'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite'
+        },
+        runningMode: 'VIDEO',
+        minDetectionConfidence: 0.55
+      });
+
+      detectorReady = true;
+    }
+
+    function mapDetectionToCanvas(detection) {
+      const box = detection.boundingBox;
+      const width = camStage.clientWidth;
+      const height = camStage.clientHeight;
+
+      const scaleX = width / labCamera.videoWidth;
+      const scaleY = height / labCamera.videoHeight;
+      const scale = Math.max(scaleX, scaleY);
+
+      const renderedWidth = labCamera.videoWidth * scale;
+      const renderedHeight = labCamera.videoHeight * scale;
+      const offsetX = (width - renderedWidth) / 2;
+      const offsetY = (height - renderedHeight) / 2;
+
+      const x = offsetX + box.originX * scale;
+      const y = offsetY + box.originY * scale;
+      const w = box.width * scale;
+      const h = box.height * scale;
+
+      const mirroredCenterX = width - (x + w / 2);
+      const centerY = y + h / 2;
+
+      return {
+        x: mirroredCenterX,
+        y: centerY,
+        radius: Math.max(w, h) * 1.1
+      };
+    }
+
+    function startDetectionLoop() {
+      if (detectionIntervalId) {
+        clearInterval(detectionIntervalId);
+      }
+
+      detectionIntervalId = setInterval(() => {
+        if (!faceDetector || !labCamera.videoWidth || labCamera.readyState < 2) return;
+
+        try {
+          const nowMs = performance.now();
+          const result = faceDetector.detectForVideo(labCamera, nowMs);
+
+          if (result.detections && result.detections.length > 0) {
+            currentFace = mapDetectionToCanvas(result.detections[0]);
+            camStatus.textContent = 'Face detected';
+          } else {
+            currentFace = null;
+            camStatus.textContent = 'Camera live';
+          }
+        } catch (error) {
+          console.error('Face detection error:', error);
+        }
+      }, 120);
+    }
+
+    function stopDetectionLoop() {
+      if (detectionIntervalId) {
+        clearInterval(detectionIntervalId);
+        detectionIntervalId = null;
+      }
+      currentFace = null;
+    }
+
     function stopCurrentCameraStream() {
       if (currentCameraStream) {
         currentCameraStream.getTracks().forEach(track => track.stop());
@@ -1504,15 +1680,17 @@
         return;
       }
 
-      stopCurrentCameraStream();
+      stopCamera();
 
       try {
+        await setupFaceDetector();
+
         camStatus.textContent = 'Requesting camera...';
 
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
-            facingMode: facingMode,
+            facingMode: { ideal: facingMode },
             width: { ideal: 1280 },
             height: { ideal: 720 }
           }
@@ -1523,23 +1701,18 @@
         labCamera.srcObject = stream;
         await labCamera.play();
 
-        camStatus.textContent =
-          facingMode === 'user' ? 'Front camera live' : 'Rear camera live';
-      } catch (error) {
-        try {
-          const fallbackStream = await navigator.mediaDevices.getUserMedia({
-            audio: false,
-            video: true
-          });
+        resizeCanvas();
+        createParticles();
 
-          currentCameraStream = fallbackStream;
-          labCamera.srcObject = fallbackStream;
-          await labCamera.play();
-          camStatus.textContent = 'Camera live';
-        } catch (fallbackError) {
-          camStatus.textContent = 'Camera access blocked or unavailable';
-          console.error('Camera access failed:', fallbackError);
+        if (!animationId) {
+          animateParticles();
         }
+
+        startDetectionLoop();
+        camStatus.textContent = facingMode === 'user' ? 'Front camera live' : 'Rear camera live';
+      } catch (error) {
+        console.error('Camera start failed:', error);
+        camStatus.textContent = 'Camera access blocked or unavailable';
       }
     }
 
@@ -1549,8 +1722,17 @@
     }
 
     function stopCamera() {
+      stopDetectionLoop();
       stopCurrentCameraStream();
       camStatus.textContent = 'Camera stopped';
+    }
+
+    function bootParticlesOnly() {
+      resizeCanvas();
+      createParticles();
+      if (!animationId) {
+        animateParticles();
+      }
     }
 
     startCameraBtn.addEventListener('click', () => startCamera(currentFacingMode));
@@ -1564,7 +1746,8 @@
     });
 
     window.addEventListener('beforeunload', () => {
-      stopCurrentCameraStream();
+      stopCamera();
+      if (animationId) cancelAnimationFrame(animationId);
     });
 
     document.addEventListener('keydown', (e) => {
@@ -1579,9 +1762,16 @@
       }
     });
 
+    window.addEventListener('resize', () => {
+      updateNavState();
+      resizeCanvas();
+    });
+
     window.addEventListener('scroll', updateNavState);
-    window.addEventListener('load', updateNavState);
-    window.addEventListener('resize', updateNavState);
+    window.addEventListener('load', () => {
+      updateNavState();
+      bootParticlesOnly();
+    });
   </script>
 </body>
 </html>
