@@ -28,8 +28,8 @@
     }
 
     @font-face {
-      font-family: 'UNDERTOWN';
-      src: url('./fonts/UNDERTOWN.ttf') format('truetype');
+      font-family: 'SNORTER';
+      src: url('./fonts/SNORTER.ttf') format('truetype');
       font-weight: 400;
       font-style: normal;
     }
@@ -74,7 +74,6 @@
       max-width: 100%;
     }
 
-    /* CURSOR */
     #cursorCanvas {
       position: fixed;
       inset: 0;
@@ -85,7 +84,6 @@
       mix-blend-mode: difference;
     }
 
-    /* NAV */
     .nav {
       position: fixed;
       top: 0;
@@ -227,7 +225,6 @@
       81% { opacity: 1; }
     }
 
-    /* HERO */
     .hero {
       position: relative;
       width: 100%;
@@ -265,7 +262,7 @@
     }
 
     .hero-text h1 {
-      font-family: 'UNDERTOWN', serif;
+      font-family: 'SNORTER', serif;
       font-size: clamp(122px, 10.8vw, 188px);
       line-height: 0.9;
       font-weight: 400;
@@ -294,9 +291,8 @@
       transform: translateY(-2px);
     }
 
-    /* SHARED SECTION */
     .section-heading {
-      font-family: 'UNDERTOWN', serif;
+      font-family: 'SNORTER', serif;
       font-size: clamp(56px, 5.4vw, 88px);
       line-height: 1;
       margin-bottom: 18px;
@@ -310,7 +306,6 @@
       margin-bottom: 42px;
     }
 
-    /* WORK */
     .work-section {
       min-height: 100vh;
       padding: 130px 8% 100px;
@@ -368,7 +363,6 @@
       color: rgba(255, 255, 255, 0.72);
     }
 
-    /* ABOUT */
     .about-section {
       min-height: 100vh;
       background: var(--bg-light);
@@ -432,7 +426,6 @@
       text-align: right;
     }
 
-    /* CONTACT */
     .contact-section {
       min-height: 70vh;
       padding: 130px 8% 100px;
@@ -469,7 +462,6 @@
       border-bottom-color: rgba(255, 255, 255, 0.32);
     }
 
-    /* FOOTER */
     .site-footer {
       padding: 28px 8%;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -478,7 +470,6 @@
       font-size: 14px;
     }
 
-    /* MOBILE */
     @media (max-width: 1100px) {
       .nav-left {
         max-width: 32vw;
@@ -771,7 +762,6 @@
       });
     });
 
-    /* CURSOR TRAIL */
     const canvas = document.getElementById('cursorCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
