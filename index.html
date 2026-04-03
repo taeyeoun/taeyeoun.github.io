@@ -195,6 +195,11 @@
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
+    .nav-right a {
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
     .nav-center a:hover,
     .nav-right a:hover {
       opacity: 0.68;
@@ -293,10 +298,11 @@
 
     .section-heading {
       font-family: 'SNORTER', serif;
-      font-size: clamp(56px, 5.4vw, 88px);
+      font-size: clamp(40px, 4vw, 64px);
       line-height: 1;
       margin-bottom: 18px;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
+      opacity: 0.92;
     }
 
     .section-intro {
@@ -372,14 +378,22 @@
 
     .about-section .section-heading {
       color: #666;
-      margin-bottom: 42px;
+      margin-bottom: 36px;
     }
 
     .about-layout {
       display: grid;
-      grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.4fr);
+      grid-template-columns: minmax(220px, 260px) minmax(0, 760px);
       column-gap: 60px;
       align-items: start;
+    }
+
+    .about-label {
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(90, 90, 90, 0.72);
+      padding-top: 10px;
     }
 
     .about-text-wrap {
@@ -387,29 +401,10 @@
     }
 
     .about-text {
-      font-size: clamp(22px, 2vw, 34px);
-      line-height: 1.35;
+      font-size: clamp(22px, 2vw, 32px);
+      line-height: 1.42;
       letter-spacing: -0.01em;
       color: #666;
-    }
-
-    .about-links {
-      display: flex;
-      gap: 24px;
-      margin-top: 42px;
-      flex-wrap: wrap;
-    }
-
-    .about-links a {
-      color: #666;
-      border-bottom: 1px solid rgba(102, 102, 102, 0.35);
-      padding-bottom: 4px;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .about-links a:hover {
-      opacity: 0.6;
-      transform: translateY(-2px);
     }
 
     .about-bottom {
@@ -435,13 +430,14 @@
 
     .contact-section .section-heading {
       color: var(--text-light);
-      margin-bottom: 28px;
+      margin-bottom: 34px;
     }
 
     .contact-info {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 22px;
+      padding-left: 20px;
     }
 
     .contact-item {
@@ -449,11 +445,13 @@
       align-items: center;
       gap: 14px;
       width: fit-content;
-      color: rgba(255, 255, 255, 0.84);
-      font-size: 20px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: clamp(24px, 2vw, 30px);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       transition: opacity 0.2s ease, transform 0.2s ease;
       border-bottom: 1px solid transparent;
-      padding-bottom: 2px;
+      padding-bottom: 4px;
     }
 
     .contact-item:hover {
@@ -531,7 +529,11 @@
 
       .about-layout {
         grid-template-columns: 1fr;
-        row-gap: 24px;
+        row-gap: 20px;
+      }
+
+      .about-label {
+        padding-top: 0;
       }
 
       .about-bottom {
@@ -585,11 +587,11 @@
 
       .about-text {
         font-size: 22px;
-        line-height: 1.45;
+        line-height: 1.48;
       }
 
       .contact-item {
-        font-size: 17px;
+        font-size: 22px;
       }
     }
 
@@ -605,6 +607,10 @@
       .nav-center a,
       .nav-right a {
         font-size: 12px;
+      }
+
+      .contact-info {
+        padding-left: 10px;
       }
     }
   </style>
@@ -627,9 +633,8 @@
       </div>
 
       <div class="nav-right">
-        <a href="mailto:tedparkfx241@gmail.com">Email</a>
-        <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+        <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
       </div>
     </div>
   </nav>
@@ -674,28 +679,25 @@
     <h2 class="section-heading">About</h2>
 
     <div class="about-layout">
-      <div></div>
+      <div class="about-label">PROFILE</div>
 
       <div class="about-text-wrap">
         <p class="about-text">
-          Taeyeoun Park is a digital effects artist working across Houdini, simulation,
-          compositing, and image making. His practice focuses on cinematic atmosphere,
-          procedural workflows, and visually driven storytelling. With a background in
-          both digital effects and design, he builds images that aim to feel technically
-          precise while still carrying emotion and presence.
+          I am a digital effects artist working mainly in Houdini, simulation, and compositing.
+          My work is focused on building images with atmosphere, weight, and a strong visual mood.
+          I am interested in procedural workflows and cinematic image-making, and I like creating
+          work that feels both technically precise and visually grounded.
+          <br><br>
+          With a background in both digital effects and design, I approach projects with attention
+          to structure, detail, and overall form. I enjoy developing visuals that are not only
+          functional in process, but also clear in emotion and presence.
         </p>
-
-        <div class="about-links">
-          <a href="mailto:tedparkfx241@gmail.com">Email</a>
-          <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </div>
       </div>
     </div>
 
     <div class="about-bottom">
       <div class="about-year">©2026</div>
-      <div class="about-contact">tedparkfx241@gmail.com</div>
+      <div class="about-contact">TWOFOURONEFX</div>
     </div>
   </section>
 
@@ -703,9 +705,10 @@
     <h2 class="section-heading">Contact</h2>
 
     <div class="contact-info">
-      <a class="contact-item" href="mailto:tedparkfx241@gmail.com">Email</a>
-      <a class="contact-item" href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a class="contact-item" href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="contact-item" href="mailto:tedparkfx241@gmail.com">EMAIL</a>
+      <a class="contact-item" href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+      <a class="contact-item" href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+      <a class="contact-item" href="#">FACEBOOK</a>
     </div>
   </section>
 
