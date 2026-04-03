@@ -105,7 +105,7 @@
       width: 100%;
       height: var(--nav-height);
       padding: 0 var(--container-x);
-      z-index: 1200;
+      z-index: 1400;
       overflow: hidden;
     }
 
@@ -126,7 +126,7 @@
       bottom: 0;
       width: 100%;
       height: 1px;
-      background: rgba(255, 255, 255, 0.26);
+      background: rgba(255, 255, 255, 0.24);
       z-index: 3;
       transition: background var(--transition);
     }
@@ -138,7 +138,7 @@
 
     .nav.nav-hover::after,
     .nav.nav-scrolled::after {
-      background: rgba(0, 0, 0, 0.18);
+      background: rgba(0, 0, 0, 0.16);
     }
 
     .nav-inner {
@@ -175,7 +175,7 @@
     .nav-center {
       flex: 1 1 auto;
       justify-content: center;
-      gap: clamp(20px, 3vw, 50px);
+      gap: clamp(18px, 2.7vw, 44px);
       min-width: 0;
     }
 
@@ -260,7 +260,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.95);
-      z-index: 1100;
+      z-index: 1300;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -394,10 +394,8 @@
 
     .work-grid {
       display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 22px;
-      align-items: start;
-      grid-auto-flow: dense;
     }
 
     .project-card {
@@ -417,27 +415,12 @@
       border-color: rgba(255, 255, 255, 0.16);
     }
 
-    .project-card.large {
-      grid-column: span 7;
-    }
-
-    .project-card.tall {
-      grid-column: span 5;
-    }
-
     .project-media {
       position: relative;
       width: 100%;
+      aspect-ratio: 16 / 9;
       background: #000;
       overflow: hidden;
-    }
-
-    .project-card.large .project-media {
-      aspect-ratio: 16 / 10;
-    }
-
-    .project-card.tall .project-media {
-      aspect-ratio: 4 / 5;
     }
 
     .project-preview {
@@ -665,6 +648,124 @@
       transform: translateY(-2px);
     }
 
+    /* INTERACTIVE LAB */
+    .interactive-section {
+      min-height: 100vh;
+      padding: 130px var(--container-x) 110px;
+      background: #090909;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .interactive-section .section-heading {
+      color: var(--text-light);
+    }
+
+    .interactive-section .section-intro {
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 880px;
+    }
+
+    .interactive-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.62fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .cam-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .cam-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .cam-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(to top, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.06) 38%, rgba(0, 0, 0, 0.12));
+    }
+
+    .cam-status {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      z-index: 2;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(0, 0, 0, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 8px 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+
+    .interactive-panel {
+      background: #101010;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .interactive-panel h3 {
+      font-size: 26px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      font-weight: 500;
+      color: var(--text-light);
+    }
+
+    .interactive-panel p {
+      font-size: 15px;
+      line-height: 1.78;
+      color: rgba(255, 255, 255, 0.76);
+    }
+
+    .cam-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .cam-btn {
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.03);
+      transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .cam-btn:hover {
+      opacity: 0.78;
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .cam-note {
+      margin-top: 20px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.52);
+    }
+
     /* ABOUT */
     .about-section {
       min-height: 100vh;
@@ -688,6 +789,7 @@
 
     .about-text-wrap {
       max-width: 760px;
+      padding-top: clamp(40px, 8vh, 96px);
     }
 
     .about-text {
@@ -790,17 +892,13 @@
 
     /* RESPONSIVE */
     @media (max-width: 1100px) {
-      .project-body {
+      .project-body,
+      .interactive-layout {
         grid-template-columns: 1fr;
       }
 
       .project-copy {
         padding-top: 0;
-      }
-
-      .project-card.large,
-      .project-card.tall {
-        grid-column: span 6;
       }
     }
 
@@ -834,6 +932,7 @@
       }
 
       .work-section,
+      .interactive-section,
       .about-section,
       .contact-section {
         padding-left: 24px;
@@ -841,16 +940,7 @@
       }
 
       .work-grid {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-      }
-
-      .project-card.large,
-      .project-card.tall {
-        grid-column: span 6;
-      }
-
-      .project-card.tall .project-media {
-        aspect-ratio: 16 / 11;
+        grid-template-columns: 1fr;
       }
 
       .about-layout {
@@ -858,13 +948,14 @@
         row-gap: 34px;
       }
 
+      .about-text-wrap {
+        order: 1;
+        padding-top: 12px;
+      }
+
       .about-image {
         order: 2;
         max-width: 420px;
-      }
-
-      .about-text-wrap {
-        order: 1;
       }
 
       .about-bottom {
@@ -944,6 +1035,14 @@
         padding: 14px 16px;
       }
 
+      .cam-stage {
+        aspect-ratio: 9 / 14;
+      }
+
+      .interactive-panel {
+        padding: 18px;
+      }
+
       .about-text {
         font-size: 22px;
         line-height: 1.48;
@@ -975,6 +1074,16 @@
       .project-copy h2 {
         font-size: 34px;
       }
+
+      .cam-controls {
+        flex-direction: column;
+      }
+
+      .cam-btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -989,6 +1098,7 @@
       <div class="nav-center">
         <a href="#top">Home</a>
         <a href="#work">Work</a>
+        <a href="#interactive">Interactive</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </div>
@@ -1009,11 +1119,9 @@
     <div class="mobile-menu-inner">
       <a href="#top">Home</a>
       <a href="#work">Work</a>
+      <a href="#interactive">Interactive</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
-      <a href="mailto:tedparkfx241@gmail.com">Email</a>
-      <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
   </div>
 
@@ -1037,7 +1145,7 @@
 
     <div class="work-grid">
       <article
-        class="project-card large"
+        class="project-card"
         data-project="crowd"
         data-vimeo-id="1079184882"
         data-title="Crowd Showreel"
@@ -1065,7 +1173,7 @@
       </article>
 
       <article
-        class="project-card tall"
+        class="project-card"
         data-project="fx"
         data-vimeo-id="1079183992"
         data-title="FX Showreel"
@@ -1088,9 +1196,51 @@
         <div class="project-info">
           <span class="project-tag">Showreel</span>
           <h3>FX Showreel</h3>
-          <p>Simulation led imagery, procedural systems, and visual storytelling through dynamic effects work.</p>
+          <p>Simulation driven imagery, procedural systems, and visual storytelling through dynamic effects work.</p>
         </div>
       </article>
+    </div>
+  </section>
+
+  <section class="interactive-section" id="interactive">
+    <h2 class="section-heading">Interactive Lab</h2>
+    <p class="section-intro">
+      A simple live camera test space for laptop webcams and mobile selfie cameras.
+      Allow camera access to preview a real time feed directly in the page.
+    </p>
+
+    <div class="interactive-layout">
+      <div class="cam-stage">
+        <video
+          id="labCamera"
+          class="cam-video"
+          autoplay
+          playsinline
+          muted
+        ></video>
+        <div class="cam-overlay"></div>
+        <div class="cam-status" id="camStatus">Camera idle</div>
+      </div>
+
+      <div class="interactive-panel">
+        <h3>Live Camera Test</h3>
+        <p>
+          This section is for quick testing before adding effects later.
+          On phones, it tries to use the front camera first.
+          On laptops, it uses the available webcam.
+        </p>
+
+        <div class="cam-controls">
+          <button class="cam-btn" id="startCameraBtn">Start Camera</button>
+          <button class="cam-btn" id="switchCameraBtn">Switch Camera</button>
+          <button class="cam-btn" id="stopCameraBtn">Stop Camera</button>
+        </div>
+
+        <p class="cam-note">
+          For camera access, test on localhost or a secure hosted site.
+          If permission is blocked, the live feed will not start.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -1191,9 +1341,8 @@
     const projectCards = document.querySelectorAll('.project-card');
     const projectOverlay = document.getElementById('projectOverlay');
     const projectBackdrop = document.getElementById('projectBackdrop');
-    const projectPanel = document.getElementById('projectPanel');
-    const projectClose = document.getElementById('projectClose');
     const projectPlayer = document.getElementById('projectPlayer');
+    const projectClose = document.getElementById('projectClose');
     const projectMetaMini = document.getElementById('projectMetaMini');
     const projectTitle = document.getElementById('projectTitle');
     const projectDescription = document.getElementById('projectDescription');
@@ -1202,7 +1351,15 @@
     const projectYear = document.getElementById('projectYear');
     const projectVimeoLink = document.getElementById('projectVimeoLink');
 
+    const labCamera = document.getElementById('labCamera');
+    const camStatus = document.getElementById('camStatus');
+    const startCameraBtn = document.getElementById('startCameraBtn');
+    const switchCameraBtn = document.getElementById('switchCameraBtn');
+    const stopCameraBtn = document.getElementById('stopCameraBtn');
+
     let lastFocusedCard = null;
+    let currentCameraStream = null;
+    let currentFacingMode = 'user';
 
     function updateNavState() {
       const heroBottom = hero.offsetTop + hero.offsetHeight;
@@ -1318,9 +1475,9 @@
     }
 
     projectCards.forEach(card => {
-      card.addEventListener('click', () => openProject(card));
       card.setAttribute('tabindex', '0');
 
+      card.addEventListener('click', () => openProject(card));
       card.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -1331,6 +1488,84 @@
 
     projectClose.addEventListener('click', closeProject);
     projectBackdrop.addEventListener('click', closeProject);
+
+    /* CAMERA LAB */
+    function stopCurrentCameraStream() {
+      if (currentCameraStream) {
+        currentCameraStream.getTracks().forEach(track => track.stop());
+        currentCameraStream = null;
+      }
+      labCamera.srcObject = null;
+    }
+
+    async function startCamera(facingMode = currentFacingMode) {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        camStatus.textContent = 'Camera API not supported';
+        return;
+      }
+
+      stopCurrentCameraStream();
+
+      try {
+        camStatus.textContent = 'Requesting camera...';
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: {
+            facingMode: facingMode,
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          }
+        });
+
+        currentCameraStream = stream;
+        currentFacingMode = facingMode;
+        labCamera.srcObject = stream;
+        await labCamera.play();
+
+        camStatus.textContent =
+          facingMode === 'user' ? 'Front camera live' : 'Rear camera live';
+      } catch (error) {
+        try {
+          const fallbackStream = await navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: true
+          });
+
+          currentCameraStream = fallbackStream;
+          labCamera.srcObject = fallbackStream;
+          await labCamera.play();
+          camStatus.textContent = 'Camera live';
+        } catch (fallbackError) {
+          camStatus.textContent = 'Camera access blocked or unavailable';
+          console.error('Camera access failed:', fallbackError);
+        }
+      }
+    }
+
+    async function switchCamera() {
+      const nextFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+      await startCamera(nextFacingMode);
+    }
+
+    function stopCamera() {
+      stopCurrentCameraStream();
+      camStatus.textContent = 'Camera stopped';
+    }
+
+    startCameraBtn.addEventListener('click', () => startCamera(currentFacingMode));
+    switchCameraBtn.addEventListener('click', switchCamera);
+    stopCameraBtn.addEventListener('click', stopCamera);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && currentCameraStream) {
+        stopCamera();
+      }
+    });
+
+    window.addEventListener('beforeunload', () => {
+      stopCurrentCameraStream();
+    });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
