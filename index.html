@@ -98,7 +98,6 @@
       cursor: pointer;
     }
 
-    /* NAV */
     .nav {
       position: fixed;
       top: 0;
@@ -292,7 +291,6 @@
       color: var(--text-light);
     }
 
-    /* HERO */
     .hero {
       position: relative;
       min-height: 100vh;
@@ -360,7 +358,6 @@
       transform: translateY(-2px);
     }
 
-    /* COMMON */
     .section-heading {
       font-family: 'SNORTER', serif;
       font-size: clamp(42px, 4.3vw, 66px);
@@ -376,7 +373,6 @@
       margin-bottom: 44px;
     }
 
-    /* WORK */
     .work-section {
       position: relative;
       min-height: 100vh;
@@ -480,7 +476,6 @@
       margin-bottom: 4px;
     }
 
-    /* PROJECT OVERLAY */
     .project-overlay {
       position: fixed;
       inset: 0;
@@ -596,11 +591,13 @@
     }
 
     .project-copy h2 {
-      font-family: 'SNORTER', serif;
-      font-size: clamp(42px, 4vw, 60px);
-      line-height: 0.98;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: clamp(34px, 3vw, 48px);
+      line-height: 1.08;
       margin-bottom: 16px;
       color: var(--text-light);
+      font-weight: 600;
+      letter-spacing: -0.03em;
     }
 
     .project-copy p {
@@ -649,7 +646,6 @@
       transform: translateY(-2px);
     }
 
-    /* INTERACTIVE LAB */
     .interactive-section {
       min-height: 100vh;
       padding: 130px var(--container-x) 110px;
@@ -693,15 +689,16 @@
       object-fit: cover;
       background: #000;
       transform: scaleX(-1);
+      opacity: 0.95;
     }
 
-    .particle-canvas {
+    .tracking-canvas {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
       z-index: 2;
+      pointer-events: none;
     }
 
     .cam-overlay {
@@ -710,7 +707,7 @@
       pointer-events: none;
       z-index: 3;
       background:
-        linear-gradient(to top, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.06) 38%, rgba(0, 0, 0, 0.12));
+        linear-gradient(to top, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.04) 38%, rgba(0, 0, 0, 0.1));
     }
 
     .cam-status {
@@ -781,7 +778,17 @@
       color: rgba(255, 255, 255, 0.52);
     }
 
-    /* ABOUT */
+    .privacy-note {
+      margin-top: 16px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.68);
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 14px;
+    }
+
     .about-section {
       min-height: 100vh;
       background: var(--bg-light);
@@ -858,7 +865,6 @@
       text-align: right;
     }
 
-    /* CONTACT */
     .contact-section {
       min-height: 72vh;
       padding: 130px var(--container-x) 110px;
@@ -905,7 +911,6 @@
       font-size: 14px;
     }
 
-    /* RESPONSIVE */
     @media (max-width: 1100px) {
       .project-body,
       .interactive-layout {
@@ -1038,7 +1043,7 @@
       }
 
       .project-copy h2 {
-        font-size: 40px;
+        font-size: 30px;
       }
 
       .project-copy p {
@@ -1087,7 +1092,7 @@
       }
 
       .project-copy h2 {
-        font-size: 34px;
+        font-size: 28px;
       }
 
       .cam-controls {
@@ -1217,23 +1222,23 @@
   <section class="interactive-section" id="interactive">
     <h2 class="section-heading">Interactive Lab</h2>
     <p class="section-intro">
-      Live camera test with face based particle repulsion. The balls move away from the detected face area,
-      so you can quickly test the interactive direction on both laptop webcams and mobile selfie cameras.
+      Live webcam blob tracking test. Moving areas are grouped into tracked blobs,
+      displayed with white tracking boxes and red ID numbers in real time.
     </p>
 
     <div class="interactive-layout">
       <div class="cam-stage" id="camStage">
         <video id="labCamera" class="cam-video" autoplay playsinline muted></video>
-        <canvas id="particleCanvas" class="particle-canvas"></canvas>
+        <canvas id="trackingCanvas" class="tracking-canvas"></canvas>
         <div class="cam-overlay"></div>
         <div class="cam-status" id="camStatus">Camera idle</div>
       </div>
 
       <div class="interactive-panel">
-        <h3>Face Repulsion Test</h3>
+        <h3>Blob Tracking Test</h3>
         <p>
-          This test uses a live camera feed and detects the face position.
-          Balls inside the camera frame are pushed away from the detected face area and slowly settle back when the face moves away.
+          This version tracks motion blobs instead of faces. Any moving object, hand, body, or shifting shape inside the frame
+          can generate a tracked region. Each detected blob receives a white rectangle and a red tracking number.
         </p>
 
         <div class="cam-controls">
@@ -1242,8 +1247,12 @@
           <button class="cam-btn" id="stopCameraBtn">Stop Camera</button>
         </div>
 
+        <p class="privacy-note">
+          This interactive test does not collect, upload, or store your camera data. All tracking is processed locally in your browser only.
+        </p>
+
         <p class="cam-note">
-          Use localhost or a secure hosted site for camera access. The mobile version tries the front camera first.
+          Use localhost or a secure hosted site for camera access. On mobile, the front camera is preferred first.
         </p>
       </div>
     </div>
@@ -1336,12 +1345,7 @@
     </div>
   </div>
 
-  <script type="module">
-    import {
-      FaceDetector,
-      FilesetResolver
-    } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-
+  <script>
     const nav = document.getElementById('mainNav');
     const hero = document.getElementById('top');
     const mobileToggle = document.getElementById('mobileToggle');
@@ -1362,26 +1366,32 @@
     const projectVimeoLink = document.getElementById('projectVimeoLink');
 
     const labCamera = document.getElementById('labCamera');
-    const particleCanvas = document.getElementById('particleCanvas');
+    const trackingCanvas = document.getElementById('trackingCanvas');
     const camStage = document.getElementById('camStage');
     const camStatus = document.getElementById('camStatus');
     const startCameraBtn = document.getElementById('startCameraBtn');
     const switchCameraBtn = document.getElementById('switchCameraBtn');
     const stopCameraBtn = document.getElementById('stopCameraBtn');
 
-    const ctx = particleCanvas.getContext('2d');
+    const trackingCtx = trackingCanvas.getContext('2d', { willReadFrequently: true });
+    const processCanvas = document.createElement('canvas');
+    const processCtx = processCanvas.getContext('2d', { willReadFrequently: true });
 
     let lastFocusedCard = null;
     let currentCameraStream = null;
     let currentFacingMode = 'user';
-    let faceDetector = null;
-    let detectorReady = false;
-    let animationId = null;
-    let detectionIntervalId = null;
-    let currentFace = null;
+    let trackingAnimationId = null;
 
-    const particles = [];
-    const particleCount = window.innerWidth < 640 ? 26 : 42;
+    let previousFrame = null;
+    let trackedBlobs = [];
+    let nextTrackId = 1;
+
+    const sampleWidth = 160;
+    const sampleHeight = 90;
+    const motionThreshold = 34;
+    const minBlobCells = 10;
+    const maxBlobCount = 12;
+    const cellStep = 2;
 
     function updateNavState() {
       const heroBottom = hero.offsetTop + hero.offsetHeight;
@@ -1503,167 +1513,16 @@
     projectClose.addEventListener('click', closeProject);
     projectBackdrop.addEventListener('click', closeProject);
 
-    function resizeCanvas() {
+    function resizeTrackingCanvas() {
       const rect = camStage.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
 
-      particleCanvas.width = rect.width * dpr;
-      particleCanvas.height = rect.height * dpr;
-      particleCanvas.style.width = rect.width + 'px';
-      particleCanvas.style.height = rect.height + 'px';
+      trackingCanvas.width = rect.width * dpr;
+      trackingCanvas.height = rect.height * dpr;
+      trackingCanvas.style.width = rect.width + 'px';
+      trackingCanvas.style.height = rect.height + 'px';
 
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function createParticles() {
-      particles.length = 0;
-      const width = camStage.clientWidth || 800;
-      const height = camStage.clientHeight || 450;
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          homeX: Math.random() * width,
-          homeY: Math.random() * height,
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
-          radius: Math.random() * 7 + 5
-        });
-      }
-    }
-
-    function drawParticles() {
-      const width = camStage.clientWidth || 800;
-      const height = camStage.clientHeight || 450;
-      ctx.clearRect(0, 0, width, height);
-
-      particles.forEach((p) => {
-        if (currentFace) {
-          const dx = p.x - currentFace.x;
-          const dy = p.y - currentFace.y;
-          const distance = Math.sqrt(dx * dx + dy * dy) || 0.001;
-
-          if (distance < currentFace.radius) {
-            const force = (1 - distance / currentFace.radius) * 1.9;
-            p.vx += (dx / distance) * force;
-            p.vy += (dy / distance) * force;
-          }
-        }
-
-        p.vx += (p.homeX - p.x) * 0.006;
-        p.vy += (p.homeY - p.y) * 0.006;
-
-        p.vx *= 0.93;
-        p.vy *= 0.93;
-
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < -30) p.x = width + 30;
-        if (p.x > width + 30) p.x = -30;
-        if (p.y < -30) p.y = height + 30;
-        if (p.y > height + 30) p.y = -30;
-
-        const glow = currentFace ? 0.14 : 0.09;
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(255, 255, 255, ${glow})`;
-        ctx.arc(p.x, p.y, p.radius * 1.7, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.78)';
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-    }
-
-    function animateParticles() {
-      drawParticles();
-      animationId = requestAnimationFrame(animateParticles);
-    }
-
-    async function setupFaceDetector() {
-      if (detectorReady) return;
-
-      camStatus.textContent = 'Loading face detector...';
-
-      const vision = await FilesetResolver.forVisionTasks(
-        'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm'
-      );
-
-      faceDetector = await FaceDetector.createFromOptions(vision, {
-        baseOptions: {
-          modelAssetPath:
-            'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite'
-        },
-        runningMode: 'VIDEO',
-        minDetectionConfidence: 0.55
-      });
-
-      detectorReady = true;
-    }
-
-    function mapDetectionToCanvas(detection) {
-      const box = detection.boundingBox;
-      const width = camStage.clientWidth;
-      const height = camStage.clientHeight;
-
-      const scaleX = width / labCamera.videoWidth;
-      const scaleY = height / labCamera.videoHeight;
-      const scale = Math.max(scaleX, scaleY);
-
-      const renderedWidth = labCamera.videoWidth * scale;
-      const renderedHeight = labCamera.videoHeight * scale;
-      const offsetX = (width - renderedWidth) / 2;
-      const offsetY = (height - renderedHeight) / 2;
-
-      const x = offsetX + box.originX * scale;
-      const y = offsetY + box.originY * scale;
-      const w = box.width * scale;
-      const h = box.height * scale;
-
-      const mirroredCenterX = width - (x + w / 2);
-      const centerY = y + h / 2;
-
-      return {
-        x: mirroredCenterX,
-        y: centerY,
-        radius: Math.max(w, h) * 1.1
-      };
-    }
-
-    function startDetectionLoop() {
-      if (detectionIntervalId) {
-        clearInterval(detectionIntervalId);
-      }
-
-      detectionIntervalId = setInterval(() => {
-        if (!faceDetector || !labCamera.videoWidth || labCamera.readyState < 2) return;
-
-        try {
-          const nowMs = performance.now();
-          const result = faceDetector.detectForVideo(labCamera, nowMs);
-
-          if (result.detections && result.detections.length > 0) {
-            currentFace = mapDetectionToCanvas(result.detections[0]);
-            camStatus.textContent = 'Face detected';
-          } else {
-            currentFace = null;
-            camStatus.textContent = 'Camera live';
-          }
-        } catch (error) {
-          console.error('Face detection error:', error);
-        }
-      }, 120);
-    }
-
-    function stopDetectionLoop() {
-      if (detectionIntervalId) {
-        clearInterval(detectionIntervalId);
-        detectionIntervalId = null;
-      }
-      currentFace = null;
+      trackingCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function stopCurrentCameraStream() {
@@ -1672,6 +1531,12 @@
         currentCameraStream = null;
       }
       labCamera.srcObject = null;
+    }
+
+    function clearTrackingOverlay() {
+      const width = camStage.clientWidth || 0;
+      const height = camStage.clientHeight || 0;
+      trackingCtx.clearRect(0, 0, width, height);
     }
 
     async function startCamera(facingMode = currentFacingMode) {
@@ -1683,8 +1548,6 @@
       stopCamera();
 
       try {
-        await setupFaceDetector();
-
         camStatus.textContent = 'Requesting camera...';
 
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -1701,14 +1564,14 @@
         labCamera.srcObject = stream;
         await labCamera.play();
 
-        resizeCanvas();
-        createParticles();
+        resizeTrackingCanvas();
 
-        if (!animationId) {
-          animateParticles();
-        }
+        processCanvas.width = sampleWidth;
+        processCanvas.height = sampleHeight;
+        previousFrame = null;
+        trackedBlobs = [];
 
-        startDetectionLoop();
+        startBlobTrackingLoop();
         camStatus.textContent = facingMode === 'user' ? 'Front camera live' : 'Rear camera live';
       } catch (error) {
         console.error('Camera start failed:', error);
@@ -1722,17 +1585,238 @@
     }
 
     function stopCamera() {
-      stopDetectionLoop();
+      if (trackingAnimationId) {
+        cancelAnimationFrame(trackingAnimationId);
+        trackingAnimationId = null;
+      }
+
       stopCurrentCameraStream();
+      previousFrame = null;
+      trackedBlobs = [];
+      clearTrackingOverlay();
       camStatus.textContent = 'Camera stopped';
     }
 
-    function bootParticlesOnly() {
-      resizeCanvas();
-      createParticles();
-      if (!animationId) {
-        animateParticles();
+    function buildMotionMask(curr, prev) {
+      const cols = Math.floor(sampleWidth / cellStep);
+      const rows = Math.floor(sampleHeight / cellStep);
+      const mask = new Array(rows);
+
+      for (let y = 0; y < rows; y++) {
+        mask[y] = new Array(cols).fill(0);
+
+        for (let x = 0; x < cols; x++) {
+          const px = x * cellStep;
+          const py = y * cellStep;
+          const idx = (py * sampleWidth + px) * 4;
+
+          const dr = Math.abs(curr[idx] - prev[idx]);
+          const dg = Math.abs(curr[idx + 1] - prev[idx + 1]);
+          const db = Math.abs(curr[idx + 2] - prev[idx + 2]);
+          const diff = (dr + dg + db) / 3;
+
+          if (diff > motionThreshold) {
+            mask[y][x] = 1;
+          }
+        }
       }
+
+      return { mask, rows, cols };
+    }
+
+    function extractBlobs(maskData) {
+      const { mask, rows, cols } = maskData;
+      const visited = Array.from({ length: rows }, () => new Array(cols).fill(false));
+      const blobs = [];
+
+      const directions = [
+        [1, 0], [-1, 0], [0, 1], [0, -1],
+        [1, 1], [1, -1], [-1, 1], [-1, -1]
+      ];
+
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          if (!mask[y][x] || visited[y][x]) continue;
+
+          let queue = [[x, y]];
+          visited[y][x] = true;
+
+          let minX = x;
+          let maxX = x;
+          let minY = y;
+          let maxY = y;
+          let count = 0;
+
+          while (queue.length) {
+            const [cx, cy] = queue.pop();
+            count++;
+
+            if (cx < minX) minX = cx;
+            if (cx > maxX) maxX = cx;
+            if (cy < minY) minY = cy;
+            if (cy > maxY) maxY = cy;
+
+            for (const [dx, dy] of directions) {
+              const nx = cx + dx;
+              const ny = cy + dy;
+
+              if (
+                nx >= 0 && nx < cols &&
+                ny >= 0 && ny < rows &&
+                mask[ny][nx] &&
+                !visited[ny][nx]
+              ) {
+                visited[ny][nx] = true;
+                queue.push([nx, ny]);
+              }
+            }
+          }
+
+          if (count >= minBlobCells) {
+            blobs.push({
+              x: minX * cellStep,
+              y: minY * cellStep,
+              width: (maxX - minX + 1) * cellStep,
+              height: (maxY - minY + 1) * cellStep,
+              area: count
+            });
+          }
+        }
+      }
+
+      blobs.sort((a, b) => b.area - a.area);
+      return blobs.slice(0, maxBlobCount);
+    }
+
+    function mapBlobToStage(blob) {
+      const stageWidth = camStage.clientWidth;
+      const stageHeight = camStage.clientHeight;
+
+      const scaleX = stageWidth / sampleWidth;
+      const scaleY = stageHeight / sampleHeight;
+      const scale = Math.max(scaleX, scaleY);
+
+      const renderedWidth = sampleWidth * scale;
+      const renderedHeight = sampleHeight * scale;
+      const offsetX = (stageWidth - renderedWidth) / 2;
+      const offsetY = (stageHeight - renderedHeight) / 2;
+
+      const x = offsetX + blob.x * scale;
+      const y = offsetY + blob.y * scale;
+      const w = blob.width * scale;
+      const h = blob.height * scale;
+
+      const mirroredX = stageWidth - (x + w);
+
+      return {
+        x: mirroredX,
+        y,
+        width: w,
+        height: h,
+        cx: mirroredX + w / 2,
+        cy: y + h / 2
+      };
+    }
+
+    function matchBlobsToTracks(blobs) {
+      const updatedTracks = [];
+      const usedTrackIds = new Set();
+
+      for (const blob of blobs) {
+        let bestTrack = null;
+        let bestDistance = Infinity;
+
+        for (const track of trackedBlobs) {
+          if (usedTrackIds.has(track.id)) continue;
+
+          const dx = blob.cx - track.cx;
+          const dy = blob.cy - track.cy;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 120 && distance < bestDistance) {
+            bestDistance = distance;
+            bestTrack = track;
+          }
+        }
+
+        if (bestTrack) {
+          usedTrackIds.add(bestTrack.id);
+          updatedTracks.push({
+            ...blob,
+            id: bestTrack.id
+          });
+        } else {
+          updatedTracks.push({
+            ...blob,
+            id: nextTrackId++
+          });
+        }
+      }
+
+      trackedBlobs = updatedTracks;
+    }
+
+    function drawTracking(blobs) {
+      const width = camStage.clientWidth || 0;
+      const height = camStage.clientHeight || 0;
+
+      trackingCtx.clearRect(0, 0, width, height);
+
+      blobs.forEach(blob => {
+        trackingCtx.save();
+
+        trackingCtx.strokeStyle = 'rgba(255,255,255,0.95)';
+        trackingCtx.lineWidth = 2;
+        trackingCtx.strokeRect(blob.x, blob.y, blob.width, blob.height);
+
+        trackingCtx.fillStyle = '#ff2a2a';
+        trackingCtx.font = '700 18px "Noto Sans KR", sans-serif';
+        trackingCtx.textBaseline = 'top';
+        trackingCtx.fillText(String(blob.id), blob.x + 8, blob.y + 8);
+
+        trackingCtx.restore();
+      });
+    }
+
+    function runBlobTracking() {
+      if (!currentCameraStream || labCamera.readyState < 2 || labCamera.videoWidth === 0) {
+        trackingAnimationId = requestAnimationFrame(runBlobTracking);
+        return;
+      }
+
+      processCtx.drawImage(labCamera, 0, 0, sampleWidth, sampleHeight);
+      const frame = processCtx.getImageData(0, 0, sampleWidth, sampleHeight);
+      const currentData = frame.data;
+
+      if (!previousFrame) {
+        previousFrame = new Uint8ClampedArray(currentData);
+        drawTracking([]);
+        trackingAnimationId = requestAnimationFrame(runBlobTracking);
+        return;
+      }
+
+      const maskData = buildMotionMask(currentData, previousFrame);
+      const rawBlobs = extractBlobs(maskData);
+      const mappedBlobs = rawBlobs.map(mapBlobToStage);
+
+      matchBlobsToTracks(mappedBlobs);
+      drawTracking(trackedBlobs);
+
+      if (trackedBlobs.length > 0) {
+        camStatus.textContent = `Tracking ${trackedBlobs.length} blob${trackedBlobs.length > 1 ? 's' : ''}`;
+      } else {
+        camStatus.textContent = 'Camera live';
+      }
+
+      previousFrame = new Uint8ClampedArray(currentData);
+      trackingAnimationId = requestAnimationFrame(runBlobTracking);
+    }
+
+    function startBlobTrackingLoop() {
+      if (trackingAnimationId) {
+        cancelAnimationFrame(trackingAnimationId);
+      }
+      trackingAnimationId = requestAnimationFrame(runBlobTracking);
     }
 
     startCameraBtn.addEventListener('click', () => startCamera(currentFacingMode));
@@ -1747,7 +1831,6 @@
 
     window.addEventListener('beforeunload', () => {
       stopCamera();
-      if (animationId) cancelAnimationFrame(animationId);
     });
 
     document.addEventListener('keydown', (e) => {
@@ -1764,13 +1847,13 @@
 
     window.addEventListener('resize', () => {
       updateNavState();
-      resizeCanvas();
+      resizeTrackingCanvas();
     });
 
     window.addEventListener('scroll', updateNavState);
     window.addEventListener('load', () => {
       updateNavState();
-      bootParticlesOnly();
+      resizeTrackingCanvas();
     });
   </script>
 </body>
