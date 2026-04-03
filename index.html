@@ -681,6 +681,22 @@
       isolation: isolate;
     }
 
+    .cam-stage:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      aspect-ratio: auto;
+      border-radius: 0;
+      border: none;
+    }
+
+    .cam-stage:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      aspect-ratio: auto;
+      border-radius: 0;
+      border: none;
+    }
+
     .cam-video {
       position: absolute;
       inset: 0;
@@ -1244,6 +1260,7 @@
         <div class="cam-controls">
           <button class="cam-btn" id="startCameraBtn">Start Camera</button>
           <button class="cam-btn" id="switchCameraBtn">Switch Camera</button>
+          <button class="cam-btn" id="fullscreenBtn">Fullscreen</button>
           <button class="cam-btn" id="stopCameraBtn">Stop Camera</button>
         </div>
 
@@ -1372,6 +1389,7 @@
     const startCameraBtn = document.getElementById('startCameraBtn');
     const switchCameraBtn = document.getElementById('switchCameraBtn');
     const stopCameraBtn = document.getElementById('stopCameraBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
 
     const trackingCtx = trackingCanvas.getContext('2d', { willReadFrequently: true });
     const processCanvas = document.createElement('canvas');
@@ -1388,10 +1406,14 @@
 
     const sampleWidth = 160;
     const sampleHeight = 90;
-    const motionThreshold = 34;
-    const minBlobCells = 10;
+    const motionThreshold = 30;
+    const minBlobCells = 8;
     const maxBlobCount = 12;
     const cellStep = 2;
+
+    const maxTrackMisses = 12;
+    const smoothingFactor = 0.32;
+    const maxMatchDistance = 150;
 
     function updateNavState() {
       const heroBottom = hero.offsetTop + hero.offsetHeight;
@@ -1638,7 +1660,7 @@
         for (let x = 0; x < cols; x++) {
           if (!mask[y][x] || visited[y][x]) continue;
 
-          let queue = [[x, y]];
+          const queue = [[x, y]];
           visited[y][x] = true;
 
           let minX = x;
@@ -1718,38 +1740,73 @@
       };
     }
 
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
     function matchBlobsToTracks(blobs) {
+      const existingTracks = trackedBlobs.map(track => ({ ...track, matched: false }));
       const updatedTracks = [];
-      const usedTrackIds = new Set();
 
       for (const blob of blobs) {
         let bestTrack = null;
         let bestDistance = Infinity;
 
-        for (const track of trackedBlobs) {
-          if (usedTrackIds.has(track.id)) continue;
+        for (const track of existingTracks) {
+          if (track.matched) continue;
 
           const dx = blob.cx - track.cx;
           const dy = blob.cy - track.cy;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 120 && distance < bestDistance) {
+          if (distance < maxMatchDistance && distance < bestDistance) {
             bestDistance = distance;
             bestTrack = track;
           }
         }
 
         if (bestTrack) {
-          usedTrackIds.add(bestTrack.id);
+          bestTrack.matched = true;
+
+          const smoothX = lerp(bestTrack.x, blob.x, smoothingFactor);
+          const smoothY = lerp(bestTrack.y, blob.y, smoothingFactor);
+          const smoothW = lerp(bestTrack.width, blob.width, smoothingFactor);
+          const smoothH = lerp(bestTrack.height, blob.height, smoothingFactor);
+
           updatedTracks.push({
-            ...blob,
-            id: bestTrack.id
+            id: bestTrack.id,
+            x: smoothX,
+            y: smoothY,
+            width: smoothW,
+            height: smoothH,
+            cx: smoothX + smoothW / 2,
+            cy: smoothY + smoothH / 2,
+            misses: 0
           });
         } else {
           updatedTracks.push({
-            ...blob,
-            id: nextTrackId++
+            id: nextTrackId++,
+            x: blob.x,
+            y: blob.y,
+            width: blob.width,
+            height: blob.height,
+            cx: blob.cx,
+            cy: blob.cy,
+            misses: 0
           });
+        }
+      }
+
+      for (const track of existingTracks) {
+        if (!track.matched) {
+          const misses = (track.misses || 0) + 1;
+
+          if (misses <= maxTrackMisses) {
+            updatedTracks.push({
+              ...track,
+              misses
+            });
+          }
         }
       }
 
@@ -1763,13 +1820,16 @@
       trackingCtx.clearRect(0, 0, width, height);
 
       blobs.forEach(blob => {
+        const alpha = 1 - (blob.misses / (maxTrackMisses + 1)) * 0.65;
+        const labelAlpha = Math.max(0.45, alpha);
+
         trackingCtx.save();
 
-        trackingCtx.strokeStyle = 'rgba(255,255,255,0.95)';
+        trackingCtx.strokeStyle = `rgba(255,255,255,${alpha})`;
         trackingCtx.lineWidth = 2;
         trackingCtx.strokeRect(blob.x, blob.y, blob.width, blob.height);
 
-        trackingCtx.fillStyle = '#ff2a2a';
+        trackingCtx.fillStyle = `rgba(255,42,42,${labelAlpha})`;
         trackingCtx.font = '700 18px "Noto Sans KR", sans-serif';
         trackingCtx.textBaseline = 'top';
         trackingCtx.fillText(String(blob.id), blob.x + 8, blob.y + 8);
@@ -1802,8 +1862,12 @@
       matchBlobsToTracks(mappedBlobs);
       drawTracking(trackedBlobs);
 
-      if (trackedBlobs.length > 0) {
-        camStatus.textContent = `Tracking ${trackedBlobs.length} blob${trackedBlobs.length > 1 ? 's' : ''}`;
+      const activeCount = trackedBlobs.filter(blob => blob.misses === 0).length;
+
+      if (activeCount > 0) {
+        camStatus.textContent = `Tracking ${activeCount} blob${activeCount > 1 ? 's' : ''}`;
+      } else if (trackedBlobs.length > 0) {
+        camStatus.textContent = 'Holding last tracks';
       } else {
         camStatus.textContent = 'Camera live';
       }
@@ -1819,9 +1883,33 @@
       trackingAnimationId = requestAnimationFrame(runBlobTracking);
     }
 
+    async function toggleFullscreen() {
+      try {
+        if (!document.fullscreenElement) {
+          await camStage.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        console.error('Fullscreen error:', error);
+      }
+    }
+
+    function updateFullscreenButton() {
+      fullscreenBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+      resizeTrackingCanvas();
+    }
+
     startCameraBtn.addEventListener('click', () => startCamera(currentFacingMode));
     switchCameraBtn.addEventListener('click', switchCamera);
     stopCameraBtn.addEventListener('click', stopCamera);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    camStage.addEventListener('dblclick', () => {
+      toggleFullscreen();
+    });
+
+    document.addEventListener('fullscreenchange', updateFullscreenButton);
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && currentCameraStream) {
@@ -1837,10 +1925,12 @@
       if (e.key === 'Escape') {
         if (mobileMenu.classList.contains('open')) {
           toggleMobileMenu(false);
+          return;
         }
 
         if (projectOverlay.classList.contains('open')) {
           closeProject();
+          return;
         }
       }
     });
@@ -1854,6 +1944,7 @@
     window.addEventListener('load', () => {
       updateNavState();
       resizeTrackingCanvas();
+      updateFullscreenButton();
     });
   </script>
 </body>
