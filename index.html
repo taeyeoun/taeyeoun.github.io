@@ -7,6 +7,20 @@
 
   <style>
     @font-face {
+      font-family: 'Glass Antiqua';
+      src: url('./fonts/GlassAntiqua-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Noto Sans KR';
+      src: url('./fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: normal;
+    }
+
+    @font-face {
       font-family: 'LEDLIGHT';
       src: url('./fonts/LEDLIGHT.otf') format('opentype');
       font-weight: 400;
@@ -22,12 +36,13 @@
 
     :root {
       --bg-black: #000000;
-      --bg-dark: #0a0a0a;
+      --bg-dark: #050505;
+      --bg-card: #111111;
       --bg-light: #ececec;
       --text-light: #f5f2eb;
-      --text-dark: #5a5a5a;
-      --line-light: rgba(255, 255, 255, 0.12);
-      --line-dark: rgba(0, 0, 0, 0.12);
+      --text-dark: #4a4a4a;
+      --accent: #ff5a1f;
+      --radius: 18px;
     }
 
     * {
@@ -43,15 +58,16 @@
     body {
       background: var(--bg-black);
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
       overflow-x: hidden;
+      user-select: none;
     }
 
     a {
-      color: inherit;
       text-decoration: none;
+      color: inherit;
     }
 
     img,
@@ -60,11 +76,222 @@
       max-width: 100%;
     }
 
+    /* NAV */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 82px;
+      padding: 0 34px;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    .nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: translateY(-100%);
+      transition: transform 0.42s ease;
+      z-index: 0;
+    }
+
+    .nav::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.22);
+      z-index: 3;
+      transition: background 0.3s ease;
+    }
+
+    .nav.nav-hover::before,
+    .nav.nav-scrolled::before {
+      transform: translateY(0);
+    }
+
+    .nav.nav-hover::after,
+    .nav.nav-scrolled::after {
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .nav-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-light);
+      transition: color 0.3s ease;
+      gap: 24px;
+    }
+
+    .nav.nav-hover .nav-inner,
+    .nav.nav-scrolled .nav-inner {
+      color: #111;
+    }
+
+    .nav-left,
+    .nav-center,
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left {
+      flex: 0 1 auto;
+      min-width: 0;
+      max-width: 34vw;
+    }
+
+    .logo {
+      font-family: 'LEDLIGHT', sans-serif;
+      font-size: clamp(24px, 2.7vw, 44px);
+      line-height: 0.95;
+      white-space: nowrap;
+      letter-spacing: 0.06em;
+      display: inline-block;
+      max-width: 100%;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        text-shadow 0.2s ease,
+        filter 0.2s ease;
+      transform-origin: left center;
+    }
+
+    .nav-center {
+      flex: 1 1 auto;
+      justify-content: center;
+      gap: 52px;
+      min-width: 0;
+    }
+
+    .nav-right {
+      flex: 0 0 auto;
+      justify-content: flex-end;
+      gap: 18px;
+      white-space: nowrap;
+    }
+
+    .nav-center a,
+    .nav-right a {
+      font-size: 15px;
+      font-weight: 450;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav-center a:hover,
+    .nav-right a:hover {
+      opacity: 0.68;
+      transform: translateY(-2px);
+    }
+
+    .logo:hover {
+      animation: logoFlicker 1.2s steps(2, end) infinite;
+      filter: brightness(1.08);
+      text-shadow:
+        0 0 4px rgba(255, 245, 210, 0.55),
+        0 0 10px rgba(255, 240, 180, 0.38),
+        0 0 18px rgba(255, 225, 140, 0.26);
+    }
+
+    @keyframes logoFlicker {
+      0%, 100% {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+      15% { opacity: 0.94; }
+      16% { opacity: 1; }
+      35% { opacity: 0.9; }
+      36% { opacity: 1; }
+      62% { opacity: 0.96; }
+      63% { opacity: 1; }
+      80% { opacity: 0.92; }
+      81% { opacity: 1; }
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      transform: scale(1.02);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.26)),
+        linear-gradient(to right, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.08) 45%, rgba(0, 0, 0, 0.06));
+      z-index: 1;
+    }
+
+    .hero-text {
+      position: absolute;
+      left: 6%;
+      top: 49%;
+      transform: translateY(-50%);
+      z-index: 2;
+      max-width: 620px;
+    }
+
+    .hero-text h1 {
+      font-family: 'SNORTER', serif;
+      font-size: clamp(104px, 9.2vw, 160px);
+      line-height: 0.92;
+      font-weight: 400;
+      color: var(--text-light);
+      text-shadow: 0 10px 34px rgba(0, 0, 0, 0.34);
+      letter-spacing: 0.01em;
+    }
+
+    .hero-text p {
+      margin-top: 16px;
+      font-size: clamp(20px, 1.5vw, 26px);
+      color: rgba(255, 255, 255, 0.94);
+    }
+
+    .scroll-link {
+      display: inline-block;
+      margin-top: 28px;
+      font-size: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.68);
+      padding-bottom: 4px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .scroll-link:hover {
+      opacity: 0.72;
+      transform: translateY(-2px);
+    }
+
+    /* COMMON HEADINGS */
     .section-heading {
-      font-size: clamp(42px, 5vw, 82px);
+      font-family: 'SNORTER', serif;
+      font-size: clamp(48px, 4.6vw, 72px);
       line-height: 1;
       margin-bottom: 18px;
-      letter-spacing: -0.04em;
+      letter-spacing: 0.01em;
     }
 
     .section-intro {
@@ -74,120 +301,20 @@
       margin-bottom: 42px;
     }
 
-    /* NAV */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 78px;
-      padding: 0 34px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .nav-logo {
-      font-family: 'LEDLIGHT', Arial, sans-serif;
-      font-size: clamp(20px, 2vw, 34px);
-      letter-spacing: 0.06em;
-      white-space: nowrap;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      font-size: 14px;
-    }
-
-    .nav-links a {
-      opacity: 0.9;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      opacity: 1;
-      transform: translateY(-1px);
-    }
-
-    /* HERO */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      width: 100%;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .hero-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.34)),
-        linear-gradient(to right, rgba(0,0,0,0.45), rgba(0,0,0,0.08) 55%, rgba(0,0,0,0.18));
-      z-index: 1;
-    }
-
-    .hero-content {
-      position: absolute;
-      left: 8%;
-      top: 52%;
-      transform: translateY(-50%);
-      z-index: 2;
-      max-width: 760px;
-    }
-
-    .hero-title {
-      font-size: clamp(64px, 9vw, 132px);
-      line-height: 0.92;
-      font-weight: 700;
-      letter-spacing: -0.05em;
-      color: #fff;
-    }
-
-    .hero-subtitle {
-      margin-top: 18px;
-      font-size: clamp(18px, 1.8vw, 28px);
-      color: rgba(255, 255, 255, 0.88);
-    }
-
-    .hero-link {
-      display: inline-block;
-      margin-top: 28px;
-      font-size: 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.65);
-      padding-bottom: 4px;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .hero-link:hover {
-      opacity: 0.75;
-      transform: translateY(-2px);
-    }
-
     /* WORK */
     .work-section {
+      min-height: 100vh;
       padding: 130px 8% 100px;
       background: var(--bg-dark);
-      border-top: 1px solid var(--line-light);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .work-section .section-heading {
+      color: var(--text-light);
     }
 
     .work-section .section-intro {
-      color: rgba(255, 255, 255, 0.76);
+      color: rgba(255, 255, 255, 0.82);
     }
 
     .work-grid {
@@ -197,9 +324,9 @@
     }
 
     .work-card {
-      background: #111;
+      background: var(--bg-card);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
+      border-radius: var(--radius);
       overflow: hidden;
       transition: transform 0.25s ease, border-color 0.25s ease;
     }
@@ -209,7 +336,7 @@
       border-color: rgba(255, 255, 255, 0.18);
     }
 
-    .work-media {
+    .work-thumb {
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
@@ -224,6 +351,7 @@
       font-size: 20px;
       margin-bottom: 8px;
       color: var(--text-light);
+      font-weight: 500;
     }
 
     .work-info p {
@@ -234,131 +362,249 @@
 
     /* ABOUT */
     .about-section {
-      padding: 130px 8% 100px;
+      min-height: 100vh;
       background: var(--bg-light);
       color: var(--text-dark);
-      border-top: 1px solid var(--line-dark);
+      padding: 130px 8% 100px;
     }
 
-    .about-label {
-      font-family: 'SNORTER', Arial, sans-serif;
-      font-size: clamp(44px, 5vw, 76px);
-      line-height: 1;
-      margin-bottom: 34px;
+    .about-section .section-heading {
       color: #666;
+      margin-bottom: 42px;
     }
 
     .about-layout {
       display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
-      gap: 42px;
+      grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+      column-gap: 60px;
       align-items: start;
+    }
+
+    .about-text-wrap {
+      max-width: 760px;
+    }
+
+    .about-text {
+      font-size: clamp(22px, 1.9vw, 31px);
+      line-height: 1.38;
+      letter-spacing: -0.01em;
+      color: #666;
+    }
+
+    .about-links {
+      display: flex;
+      gap: 24px;
+      margin-top: 42px;
+      flex-wrap: wrap;
+    }
+
+    .about-links a {
+      color: #666;
+      border-bottom: 1px solid rgba(102, 102, 102, 0.35);
+      padding-bottom: 4px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .about-links a:hover {
+      opacity: 0.6;
+      transform: translateY(-2px);
     }
 
     .about-image {
       width: 100%;
-      border-radius: 0;
-      overflow: hidden;
     }
 
     .about-image img {
       width: 100%;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 4 / 5;
       object-fit: cover;
       filter: grayscale(100%);
     }
 
-    .about-text {
-      max-width: 920px;
-      font-size: clamp(24px, 2.5vw, 36px);
-      line-height: 1.35;
-      letter-spacing: -0.03em;
-      color: #666;
+    .about-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-top: 100px;
+      font-size: 22px;
+      color: #555;
+      gap: 20px;
+    }
+
+    .about-contact {
+      text-align: right;
     }
 
     /* CONTACT */
     .contact-section {
+      min-height: 70vh;
       padding: 130px 8% 100px;
-      background: #000;
-      border-top: 1px solid var(--line-light);
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .contact-list {
+    .contact-section .section-heading {
+      color: var(--text-light);
+      margin-bottom: 28px;
+    }
+
+    .contact-info {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-top: 30px;
+      gap: 18px;
     }
 
-    .contact-list a {
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
       width: fit-content;
-      font-size: 22px;
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 20px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
       border-bottom: 1px solid transparent;
-      transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+      padding-bottom: 2px;
     }
 
-    .contact-list a:hover {
+    .contact-item:hover {
       opacity: 0.72;
       transform: translateY(-2px);
-      border-bottom-color: rgba(255,255,255,0.35);
+      border-bottom-color: rgba(255, 255, 255, 0.32);
     }
 
-    .footer {
-      padding: 26px 8%;
+    .site-footer {
+      padding: 28px 8%;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       background: #030303;
-      color: rgba(255,255,255,0.45);
-      border-top: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255, 255, 255, 0.5);
       font-size: 14px;
     }
 
-    /* MOBILE */
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      .nav-left {
+        max-width: 32vw;
+      }
+
+      .logo {
+        font-size: clamp(21px, 2.5vw, 34px);
+      }
+
+      .nav-center {
+        gap: 34px;
+      }
+
+      .nav-right {
+        gap: 14px;
+      }
+    }
+
     @media (max-width: 980px) {
       .nav {
-        height: 72px;
+        height: 76px;
         padding: 0 18px;
       }
 
-      .nav-links {
-        gap: 16px;
-        font-size: 13px;
+      .nav-left {
+        max-width: 34vw;
       }
 
-      .hero-content {
+      .logo {
+        font-size: clamp(19px, 2.8vw, 30px);
+      }
+
+      .nav-center {
+        gap: 26px;
+      }
+
+      .nav-right {
+        gap: 12px;
+      }
+
+      .hero-text {
         left: 7%;
         right: 7%;
-        max-width: none;
+        top: 52%;
+        max-width: 560px;
+      }
+
+      .hero-text h1 {
+        font-size: clamp(80px, 14vw, 126px);
       }
 
       .work-grid {
         grid-template-columns: 1fr;
       }
 
+      .about-section {
+        padding: 100px 24px 80px;
+      }
+
       .about-layout {
         grid-template-columns: 1fr;
+        row-gap: 30px;
       }
 
       .about-image {
-        max-width: 320px;
+        order: 2;
+        max-width: 380px;
+      }
+
+      .about-text-wrap {
+        order: 1;
+      }
+
+      .about-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 18px;
+      }
+
+      .about-contact {
+        text-align: left;
       }
     }
 
     @media (max-width: 700px) {
-      .nav-logo {
-        font-size: 18px;
+      .nav-left {
+        display: none;
       }
 
-      .nav-links {
+      .nav-inner {
+        justify-content: space-between;
         gap: 12px;
-        font-size: 12px;
       }
 
-      .hero-title {
-        font-size: 64px;
+      .nav-center {
+        flex: 1;
+        justify-content: center;
+        gap: 22px;
       }
 
-      .hero-subtitle {
+      .nav-center a,
+      .nav-right a {
+        font-size: 13px;
+      }
+
+      .hero-img {
+        object-position: 80% center;
+      }
+
+      .hero-text {
+        top: 54%;
+      }
+
+      .hero-text h1 {
+        font-size: 76px;
+        line-height: 0.94;
+      }
+
+      .hero-text p {
         font-size: 18px;
+      }
+
+      .section-heading {
+        font-size: 48px;
       }
 
       .about-text {
@@ -366,97 +612,186 @@
         line-height: 1.45;
       }
 
-      .contact-list a {
-        font-size: 18px;
+      .contact-item {
+        font-size: 17px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav-center {
+        gap: 14px;
+      }
+
+      .nav-right {
+        gap: 10px;
+      }
+
+      .nav-center a,
+      .nav-right a {
+        font-size: 12px;
       }
     }
   </style>
 </head>
 <body>
 
-  <nav class="nav">
-    <a href="#top" class="nav-logo">TWOFOURONEFX</a>
+  <nav class="nav" id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="#top" class="logo">TWOFOURONEFX</a>
+      </div>
 
-    <div class="nav-links">
-      <a href="#top">Home</a>
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <div class="nav-center">
+        <a href="#top">Home</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="mailto:tedparkfx241@gmail.com">Email</a>
+        <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
     </div>
   </nav>
 
   <section class="hero" id="top">
-    <img src="./hero.png" alt="Taeyeoun Park hero image" class="hero-image" />
+    <img src="./hero.png" alt="Taeyeoun Park hero image" class="hero-img" />
     <div class="hero-overlay"></div>
 
-    <div class="hero-content">
-      <h1 class="hero-title">Taeyeoun Park</h1>
-      <p class="hero-subtitle">FX Artist / Digital Effects</p>
-      <a href="#work" class="hero-link">View Work</a>
+    <div class="hero-text">
+      <h1>Taeyeoun Park</h1>
+      <p>FX Artist / Digital Effects</p>
+      <a href="#work" class="scroll-link">View Work</a>
     </div>
   </section>
 
   <section class="work-section" id="work">
     <h2 class="section-heading">Work</h2>
     <p class="section-intro">
-      Selected projects in simulation, cinematic image making, and digital effects.
+      Selected projects in Houdini, simulation, compositing, and digital effects.
     </p>
 
     <div class="work-grid">
       <article class="work-card">
-        <video class="work-media" autoplay muted loop playsinline poster="./hero.png">
+        <video class="work-thumb" autoplay muted loop playsinline poster="./hero.png">
           <source src="./project1.mp4" type="video/mp4" />
         </video>
         <div class="work-info">
           <h3>Project One</h3>
-          <p>Procedural FX, simulation, and look development created in Houdini.</p>
+          <p>Procedural FX, Houdini simulation, compositing and final look development.</p>
         </div>
       </article>
 
       <article class="work-card">
-        <video class="work-media" autoplay muted loop playsinline poster="./hero.png">
+        <video class="work-thumb" autoplay muted loop playsinline poster="./hero.png">
           <source src="./project2.mp4" type="video/mp4" />
         </video>
         <div class="work-info">
           <h3>Project Two</h3>
-          <p>Cinematic visual development with a focus on atmosphere, motion, and structure.</p>
+          <p>Cinematic mood, lighting, visual storytelling and simulation driven imagery.</p>
         </div>
       </article>
     </div>
   </section>
 
   <section class="about-section" id="about">
-    <h2 class="about-label">ABOUT</h2>
+    <h2 class="section-heading">About</h2>
 
     <div class="about-layout">
-      <div class="about-image">
-        <img src="./about.JPG" alt="Taeyeoun Park portrait" />
+      <div class="about-text-wrap">
+        <p class="about-text">
+          Taeyeoun Park is a digital effects artist working primarily in Houdini.
+          His work focuses on procedural systems, simulation, and cinematic image making,
+          translating structure and physical behaviour into visual form.
+          With a background in industrial design, he approaches digital work through form,
+          material, and logic, creating images that feel both technically precise and atmospherically grounded.
+        </p>
+
+        <div class="about-links">
+          <a href="mailto:tedparkfx241@gmail.com">Email</a>
+          <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="./Taeyeoun_Park_CV.pdf" target="_blank" rel="noopener noreferrer">Curriculum Vitae (PDF)</a>
+        </div>
       </div>
 
-      <p class="about-text">
-        Taeyeoun Park is a digital effects artist working primarily in Houdini.
-        His work focuses on procedural systems, simulation, and cinematic image making,
-        translating structure and physical behaviour into visual form.
-        With a background in industrial design, he approaches digital work through form,
-        material, and logic, creating images that feel both technically precise and atmospherically grounded.
-      </p>
+      <div class="about-image">
+        <img src="./about.JPG" alt="Taeyeoun Park" />
+      </div>
+    </div>
+
+    <div class="about-bottom">
+      <div class="about-year">©2026</div>
+      <div class="about-contact">tedparkfx241@gmail.com</div>
     </div>
   </section>
 
   <section class="contact-section" id="contact">
     <h2 class="section-heading">Contact</h2>
 
-    <div class="contact-list">
-      <a href="mailto:tedparkfx241@gmail.com">Email</a>
-      <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="./Taeyeoun_Park_CV.pdf" target="_blank" rel="noopener noreferrer">Curriculum Vitae (PDF)</a>
+    <div class="contact-info">
+      <a class="contact-item" href="mailto:tedparkfx241@gmail.com">Email</a>
+      <a class="contact-item" href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a class="contact-item" href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="contact-item" href="./Taeyeoun_Park_CV.pdf" target="_blank" rel="noopener noreferrer">Curriculum Vitae (PDF)</a>
     </div>
   </section>
 
-  <footer class="footer">
-    ©2026 TWOFOURONEFX
+  <footer class="site-footer">
+    TWOFOURONEFX Portfolio
   </footer>
+
+  <script>
+    const nav = document.getElementById('mainNav');
+    const hero = document.getElementById('top');
+
+    function updateNavState() {
+      const heroBottom = hero.offsetTop + hero.offsetHeight;
+      const triggerPoint = window.scrollY + nav.offsetHeight;
+
+      if (triggerPoint >= heroBottom) {
+        nav.classList.add('nav-scrolled');
+        nav.classList.remove('nav-hover');
+      } else {
+        nav.classList.remove('nav-scrolled');
+      }
+    }
+
+    nav.addEventListener('mouseenter', () => {
+      if (!nav.classList.contains('nav-scrolled')) {
+        nav.classList.add('nav-hover');
+      }
+    });
+
+    nav.addEventListener('mouseleave', () => {
+      if (!nav.classList.contains('nav-scrolled')) {
+        nav.classList.remove('nav-hover');
+      }
+    });
+
+    window.addEventListener('scroll', updateNavState);
+    window.addEventListener('load', updateNavState);
+    window.addEventListener('resize', updateNavState);
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute('href'));
+        if (!target) return;
+
+        const offset = nav.offsetHeight;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset + 1;
+
+        window.scrollTo({
+          top: top,
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
