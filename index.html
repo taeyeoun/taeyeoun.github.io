@@ -4,113 +4,137 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TWOFOURONEFX</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    section {
+      padding: 120px 8%;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 8%;
+      display: flex;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    nav a {
+      margin-right: 20px;
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: url('./hero.png') center/cover no-repeat;
+    }
+
+    .hero h1 {
+      font-size: 80px;
+    }
+
+    /* ABOUT */
+    .about {
+      background: #eee;
+      color: #333;
+    }
+
+    .about-layout {
+      display: flex;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about img {
+      width: 400px;
+      filter: grayscale(100%);
+    }
+
+    .about-text {
+      font-size: 22px;
+      line-height: 1.5;
+    }
+
+    /* CONTACT */
+    .contact a {
+      display: block;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+  </style>
 </head>
+
 <body>
 
-  <nav class="nav" id="mainNav">
-    <div class="nav-inner">
-      <div class="nav-left">
-        <a href="#top" class="logo">TWOFOURONEFX</a>
-      </div>
+<!-- NAV -->
+<nav>
+  <div>TWOFOURONEFX</div>
+  <div>
+    <a href="#top">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
 
-      <div class="nav-center">
-        <a href="#top">Home</a>
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </div>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div>
+    <h1>Taeyeoun Park</h1>
+    <p>FX Artist</p>
+  </div>
+</section>
 
-      <div class="nav-right">
-        <a href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
-        <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
-      </div>
-    </div>
-  </nav>
+<!-- ABOUT -->
+<section class="about" id="about">
+  <h2>About</h2>
 
-  <section class="hero" id="top">
-    <div id="hero-webgl"></div>
+  <div class="about-layout">
 
-    <div id="hero-loading" class="hero-loading">
-      <div class="loader"></div>
-    </div>
+    <!-- 이미지 -->
+    <img src="./about.JPG" alt="Taeyeoun Park">
 
-    <div class="hero-overlay"></div>
-
-    <div class="hero-text">
-      <h1>Taeyeoun Park</h1>
-      <p>FX Artist / Digital Effects</p>
-      <a href="#work" class="scroll-link">View Work</a>
-    </div>
-  </section>
-
-  <section class="work-section" id="work">
-    <h2 class="section-heading">Work</h2>
-    <p class="section-intro">
-      Selected projects in Houdini, simulation, compositing, and digital effects.
+    <!-- 텍스트 -->
+    <p class="about-text">
+      Taeyeoun Park is a digital effects artist working primarily in Houdini.
+      His work focuses on procedural systems, simulation, and cinematic image making,
+      translating structure and physical behaviour into visual form.
+      With a background in industrial design, he approaches digital work through form, material, and logic,
+      creating images that feel both technically precise and atmospherically grounded.
     </p>
 
-    <div class="work-grid">
-      <article class="work-card">
-        <img src="./hero.png" alt="Project One preview" class="work-thumb" />
-        <div class="work-info">
-          <h3>Project One</h3>
-          <p>Procedural FX, Houdini simulation, compositing and final look development.</p>
-        </div>
-      </article>
+  </div>
+</section>
 
-      <article class="work-card">
-        <img src="./hero.png" alt="Project Two preview" class="work-thumb" />
-        <div class="work-info">
-          <h3>Project Two</h3>
-          <p>Cinematic mood, lighting, visual storytelling and simulation driven imagery.</p>
-        </div>
-      </article>
-    </div>
-  </section>
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <h2>Contact</h2>
 
-  <section class="about-section" id="about">
-    <h2 class="section-heading">About</h2>
+  <a href="mailto:tedparkfx241@gmail.com">Email</a>
+  <a href="https://instagram.com/Taeyeoun_park" target="_blank">Instagram</a>
+  <a href="https://linkedin.com/in/ted-park-fxartist" target="_blank">LinkedIn</a>
 
-    <div class="about-layout">
-      <div class="about-label">PROFILE</div>
+  <!-- 🔥 CV -->
+  <a href="./Taeyeoun_Park_CV.pdf" target="_blank" download>
+    Curriculum Vitae (PDF)
+  </a>
+</section>
 
-      <div class="about-text-wrap">
-        <p class="about-text">
-          I am a digital effects artist working mainly in Houdini, simulation, and compositing.
-          My work is focused on building images with atmosphere, weight, and a strong visual mood.
-          I am interested in procedural workflows and cinematic image making, and I like creating
-          work that feels both technically precise and visually grounded.
-          <br><br>
-          With a background in both digital effects and design, I approach projects with attention
-          to structure, detail, and overall form. I enjoy developing visuals that are not only
-          functional in process, but also clear in emotion and presence.
-        </p>
-      </div>
-    </div>
-
-    <div class="about-bottom">
-      <div class="about-year">©2026</div>
-      <div class="about-contact-mark">TWOFOURONEFX</div>
-    </div>
-  </section>
-
-  <section class="contact-section" id="contact">
-    <h2 class="section-heading">Contact</h2>
-
-    <div class="contact-info">
-      <a class="contact-item" href="mailto:tedparkfx241@gmail.com">EMAIL</a>
-      <a class="contact-item" href="https://instagram.com/Taeyeoun_park" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
-      <a class="contact-item" href="https://linkedin.com/in/ted-park-fxartist" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
-      <a class="contact-item" href="#">FACEBOOK</a>
-    </div>
-  </section>
-
-  <footer class="site-footer">
-    TWOFOURONEFX Portfolio
-  </footer>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="script.js"></script>
 </body>
 </html>
