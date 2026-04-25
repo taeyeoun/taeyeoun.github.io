@@ -477,6 +477,33 @@
       pointer-events: none;
     }
 
+.project-card.featured {
+  grid-column: 1 / -1;
+}
+
+.project-card.featured .project-media {
+  aspect-ratio: 21 / 9;
+}
+
+.project-card.final {
+  grid-column: 1;
+}
+
+@media (max-width: 900px) {
+  .project-card.featured,
+  .project-card.final {
+    grid-column: auto;
+  }
+
+  .project-card.featured .project-media {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.project-info {
+  ...
+}
+    
     .project-info {
       position: absolute;
       left: 0;
@@ -1268,35 +1295,35 @@
     <div class="work-grid">
 
       <!-- =====================================================
-           WORK CARD 01 / CROWD SHOWREEL
+           WORK CARD 01 / UNEMPLOYED / FEATURED SHORT FILM
            ===================================================== -->
 
       <article
-        class="project-card"
-        data-video-platform="vimeo"
-        data-video-id="1079184882"
-        data-title="Crowd Showreel"
-        data-type="Showreel"
-        data-description="A crowd focused showreel built around simulation driven choreography, character behaviour, collision response, and large scale action timing."
-        data-role="FX Artist, Crowd Simulation, Layout, Look Development, Compositing"
-        data-tools="Houdini, Karma, Nuke, DaVinci Resolve"
+        class="project-card featured"
+        data-video-platform="youtube"
+        data-video-id="SRqD9HnXHKM"
+        data-title="UNEMPLOYED 無職 | Short Film"
+        data-type="Short Film"
+        data-description="A short film based on personal experience, exploring unemployment, rejection, and the emotional pressure of searching for work in an AI influenced job market."
+        data-role="Director, Writer, Cinematographer, Editor"
+        data-tools="Sony A7M4, DaVinci Resolve, Premiere Pro"
         data-year="2026"
-        data-link="https://vimeo.com/1079184882"
+        data-link="https://www.youtube.com/watch?v=SRqD9HnXHKM"
       >
         <div class="project-media">
           <iframe
             class="project-preview"
-            src="https://player.vimeo.com/video/1079184882?background=1&autopause=0&muted=1&loop=1"
+            src="https://www.youtube.com/embed/SRqD9HnXHKM?autoplay=1&mute=1&controls=0&loop=1&playlist=SRqD9HnXHKM&playsinline=1"
             allow="autoplay; fullscreen; picture-in-picture"
             allowfullscreen
-            title="Crowd Showreel Preview">
+            title="UNEMPLOYED Short Film Preview">
           </iframe>
         </div>
 
         <div class="project-info">
-          <span class="project-tag">Showreel</span>
-          <h3>Crowd Showreel</h3>
-          <p>Large scale crowd action, procedural control, battle staging, and cinematic presentation.</p>
+          <span class="project-tag">Short Film</span>
+          <h3>UNEMPLOYED 無職</h3>
+          <p>A short film about unemployment, rejection, and emotional collapse during the job search process.</p>
         </div>
       </article>
 
@@ -1334,52 +1361,51 @@
       </article>
 
       <!-- =====================================================
-           WORK CARD 03 / SHORT FILM
-           YouTube link added to main grid
+           WORK CARD 03 / CROWD SHOWREEL
            ===================================================== -->
 
       <article
         class="project-card"
-        data-video-platform="youtube"
-        data-video-id="SRqD9HnXHKM"
-        data-title="UNEMPLOYED 無職 | Short Film"
-        data-type="Short Film"
-        data-description="A short film based on personal experience, exploring unemployment, rejection, and the emotional pressure of searching for work in an AI influenced job market."
-        data-role="Director, Writer, Cinematographer, Editor"
-        data-tools="Sony A7M4, DaVinci Resolve, Premiere Pro"
+        data-video-platform="vimeo"
+        data-video-id="1079184882"
+        data-title="Crowd Showreel"
+        data-type="Showreel"
+        data-description="A crowd focused showreel built around simulation driven choreography, character behaviour, collision response, and large scale action timing."
+        data-role="FX Artist, Crowd Simulation, Layout, Look Development, Compositing"
+        data-tools="Houdini, Karma, Nuke, DaVinci Resolve"
         data-year="2026"
-        data-link="https://www.youtube.com/watch?v=SRqD9HnXHKM"
+        data-link="https://vimeo.com/1079184882"
       >
         <div class="project-media">
           <iframe
             class="project-preview"
-            src="https://www.youtube.com/embed/SRqD9HnXHKM?autoplay=1&mute=1&controls=0&loop=1&playlist=SRqD9HnXHKM&playsinline=1"
+            src="https://player.vimeo.com/video/1079184882?background=1&autopause=0&muted=1&loop=1"
             allow="autoplay; fullscreen; picture-in-picture"
             allowfullscreen
-            title="UNEMPLOYED Short Film Preview">
+            title="Crowd Showreel Preview">
           </iframe>
         </div>
 
         <div class="project-info">
-          <span class="project-tag">Short Film</span>
-          <h3>UNEMPLOYED 無職</h3>
-          <p>A short film about unemployment, rejection, and emotional collapse during the job search process.</p>
+          <span class="project-tag">Showreel</span>
+          <h3>Crowd Showreel</h3>
+          <p>Large scale crowd action, procedural control, battle staging, and cinematic presentation.</p>
         </div>
       </article>
 
       <!-- =====================================================
-           WORK CARD 04 / SECOND YOUTUBE PROJECT
+           WORK CARD 04 / GRADUATE FINAL PROJECT
            ===================================================== -->
 
       <article
-        class="project-card"
+        class="project-card final"
         data-video-platform="youtube"
         data-video-id="qgGK9EpXUEo"
-        data-title="Personal Film Project"
-        data-type="Film Project"
-        data-description="A personal moving image project added as part of the portfolio presentation, expanding the work section beyond FX showreels into live action filmmaking."
-        data-role="Director, Cinematographer, Editor"
-        data-tools="Sony A7M4, DaVinci Resolve, Premiere Pro"
+        data-title="Graduate Final Project"
+        data-type="Final Project"
+        data-description="A graduate final project combining live action filmmaking, visual effects, compositing, and cinematic presentation."
+        data-role="Director, Cinematographer, Editor, Compositor"
+        data-tools="Houdini, Nuke, DaVinci Resolve, Premiere Pro"
         data-year="2026"
         data-link="https://www.youtube.com/watch?v=qgGK9EpXUEo"
       >
@@ -1389,14 +1415,14 @@
             src="https://www.youtube.com/embed/qgGK9EpXUEo?autoplay=1&mute=1&controls=0&loop=1&playlist=qgGK9EpXUEo&playsinline=1"
             allow="autoplay; fullscreen; picture-in-picture"
             allowfullscreen
-            title="Personal Film Project Preview">
+            title="Graduate Final Project Preview">
           </iframe>
         </div>
 
         <div class="project-info">
-          <span class="project-tag">Film Project</span>
-          <h3>Personal Film Project</h3>
-          <p>Live action filmmaking work added to the portfolio alongside FX and simulation projects.</p>
+          <span class="project-tag">Final Project</span>
+          <h3>Graduate Final Project</h3>
+          <p>Graduate final project combining cinematic live action, compositing, and visual effects presentation.</p>
         </div>
       </article>
 
