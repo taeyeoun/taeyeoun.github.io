@@ -9,6 +9,15 @@
   <title>TWOFOURONEFX</title>
 
   <style>
+    /* =========================================================
+       PART 1 START
+       HEAD + COMPLETE CSS
+       ========================================================= */
+
+    /* =========================================================
+       FONT SETUP
+       ========================================================= */
+
     @font-face {
       font-family: 'Glass Antiqua';
       src: url('./fonts/GlassAntiqua-Regular.ttf') format('truetype');
@@ -37,6 +46,10 @@
       font-style: normal;
     }
 
+    /* =========================================================
+       GLOBAL VARIABLES
+       ========================================================= */
+
     :root {
       --bg-black: #000000;
       --bg-dark: #050505;
@@ -51,6 +64,10 @@
       --transition: 0.35s ease;
       --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.22);
     }
+
+    /* =========================================================
+       GLOBAL RESET
+       ========================================================= */
 
     * {
       margin: 0;
@@ -97,6 +114,10 @@
       border: none;
       cursor: pointer;
     }
+
+    /* =========================================================
+       NAVIGATION
+       ========================================================= */
 
     .nav {
       position: fixed;
@@ -209,6 +230,10 @@
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
+
     .mobile-toggle {
       display: none;
       width: 42px;
@@ -291,6 +316,10 @@
       color: var(--text-light);
     }
 
+    /* =========================================================
+       HERO SECTION
+       ========================================================= */
+
     .hero {
       position: relative;
       min-height: 100vh;
@@ -358,6 +387,10 @@
       transform: translateY(-2px);
     }
 
+    /* =========================================================
+       SHARED SECTION STYLE
+       ========================================================= */
+
     .section-heading {
       font-family: 'SNORTER', serif;
       font-size: clamp(42px, 4.3vw, 66px);
@@ -372,6 +405,10 @@
       line-height: 1.72;
       margin-bottom: 44px;
     }
+
+    /* =========================================================
+       WORK / PORTFOLIO SECTION
+       ========================================================= */
 
     .work-section {
       position: relative;
@@ -475,6 +512,10 @@
       color: rgba(255, 255, 255, 0.74);
       margin-bottom: 4px;
     }
+
+    /* =========================================================
+       PROJECT MODAL / OVERLAY
+       ========================================================= */
 
     .project-overlay {
       position: fixed;
@@ -646,6 +687,10 @@
       transform: translateY(-2px);
     }
 
+    /* =========================================================
+       INTERACTIVE LAB
+       ========================================================= */
+
     .interactive-section {
       min-height: 100vh;
       padding: 130px var(--container-x) 110px;
@@ -805,6 +850,10 @@
       border-radius: 14px;
     }
 
+    /* =========================================================
+       ABOUT
+       ========================================================= */
+
     .about-section {
       min-height: 100vh;
       background: var(--bg-light);
@@ -881,6 +930,10 @@
       text-align: right;
     }
 
+    /* =========================================================
+       CONTACT
+       ========================================================= */
+
     .contact-section {
       min-height: 72vh;
       padding: 130px var(--container-x) 110px;
@@ -919,6 +972,10 @@
       transform: translateY(-2px);
     }
 
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
     .site-footer {
       padding: 28px var(--container-x);
       border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -926,6 +983,10 @@
       color: rgba(255, 255, 255, 0.5);
       font-size: 14px;
     }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
 
     @media (max-width: 1100px) {
       .project-body,
@@ -1120,9 +1181,23 @@
         text-align: center;
       }
     }
+
+    /* =========================================================
+       PART 1 END
+       NEXT PART STARTS WITH </style>, </head>, AND <body>
+       ========================================================= */
   </style>
 </head>
 <body>
+
+  <!-- =========================================================
+       PART 2 START
+       BODY / NAV / HERO / WORK PORTFOLIO
+       ========================================================= -->
+
+  <!-- =========================================================
+       NAVIGATION
+       ========================================================= -->
 
   <nav class="nav" id="mainNav">
     <div class="nav-inner">
@@ -1150,6 +1225,10 @@
     </div>
   </nav>
 
+  <!-- =========================================================
+       MOBILE MENU
+       ========================================================= -->
+
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-inner">
       <a href="#top">Home</a>
@@ -1159,6 +1238,10 @@
       <a href="#contact">Contact</a>
     </div>
   </div>
+
+  <!-- =========================================================
+       HERO SECTION
+       ========================================================= -->
 
   <section class="hero" id="top">
     <img src="./hero.png" alt="Taeyeoun Park hero image" class="hero-img" />
@@ -1171,17 +1254,27 @@
     </div>
   </section>
 
+  <!-- =========================================================
+       WORK / PORTFOLIO SECTION
+       ========================================================= -->
+
   <section class="work-section" id="work">
     <h2 class="section-heading">Work</h2>
     <p class="section-intro">
-      Selected moving image projects in Houdini, simulation, compositing, and digital effects.
+      Selected moving image projects in Houdini, simulation, compositing, short film, and digital effects.
       Each project opens into a dedicated presentation view with full playback controls.
     </p>
 
     <div class="work-grid">
+
+      <!-- =====================================================
+           WORK CARD 01 / CROWD SHOWREEL
+           ===================================================== -->
+
       <article
         class="project-card"
-        data-vimeo-id="1079184882"
+        data-video-platform="vimeo"
+        data-video-id="1079184882"
         data-title="Crowd Showreel"
         data-type="Showreel"
         data-description="A crowd focused showreel built around simulation driven choreography, character behaviour, collision response, and large scale action timing."
@@ -1199,6 +1292,7 @@
             title="Crowd Showreel Preview">
           </iframe>
         </div>
+
         <div class="project-info">
           <span class="project-tag">Showreel</span>
           <h3>Crowd Showreel</h3>
@@ -1206,9 +1300,14 @@
         </div>
       </article>
 
+      <!-- =====================================================
+           WORK CARD 02 / FX SHOWREEL
+           ===================================================== -->
+
       <article
         class="project-card"
-        data-vimeo-id="1079183992"
+        data-video-platform="vimeo"
+        data-video-id="1079183992"
         data-title="FX Showreel"
         data-type="Showreel"
         data-description="A selection of simulation based work centred on atmosphere, motion, timing, material response, and cinematic image making through Houdini workflows."
@@ -1226,14 +1325,96 @@
             title="FX Showreel Preview">
           </iframe>
         </div>
+
         <div class="project-info">
           <span class="project-tag">Showreel</span>
           <h3>FX Showreel</h3>
           <p>Simulation driven imagery, procedural systems, and visual storytelling through dynamic effects work.</p>
         </div>
       </article>
+
+      <!-- =====================================================
+           WORK CARD 03 / SHORT FILM
+           YouTube link added to main grid
+           ===================================================== -->
+
+      <article
+        class="project-card"
+        data-video-platform="youtube"
+        data-video-id="SRqD9HnXHKM"
+        data-title="UNEMPLOYED 無職 | Short Film"
+        data-type="Short Film"
+        data-description="A short film based on personal experience, exploring unemployment, rejection, and the emotional pressure of searching for work in an AI influenced job market."
+        data-role="Director, Writer, Cinematographer, Editor"
+        data-tools="Sony A7M4, DaVinci Resolve, Premiere Pro"
+        data-year="2026"
+        data-link="https://www.youtube.com/watch?v=SRqD9HnXHKM"
+      >
+        <div class="project-media">
+          <iframe
+            class="project-preview"
+            src="https://www.youtube.com/embed/SRqD9HnXHKM?autoplay=1&mute=1&controls=0&loop=1&playlist=SRqD9HnXHKM&playsinline=1"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen
+            title="UNEMPLOYED Short Film Preview">
+          </iframe>
+        </div>
+
+        <div class="project-info">
+          <span class="project-tag">Short Film</span>
+          <h3>UNEMPLOYED 無職</h3>
+          <p>A short film about unemployment, rejection, and emotional collapse during the job search process.</p>
+        </div>
+      </article>
+
+      <!-- =====================================================
+           WORK CARD 04 / SECOND YOUTUBE PROJECT
+           ===================================================== -->
+
+      <article
+        class="project-card"
+        data-video-platform="youtube"
+        data-video-id="qgGK9EpXUEo"
+        data-title="Personal Film Project"
+        data-type="Film Project"
+        data-description="A personal moving image project added as part of the portfolio presentation, expanding the work section beyond FX showreels into live action filmmaking."
+        data-role="Director, Cinematographer, Editor"
+        data-tools="Sony A7M4, DaVinci Resolve, Premiere Pro"
+        data-year="2026"
+        data-link="https://www.youtube.com/watch?v=qgGK9EpXUEo"
+      >
+        <div class="project-media">
+          <iframe
+            class="project-preview"
+            src="https://www.youtube.com/embed/qgGK9EpXUEo?autoplay=1&mute=1&controls=0&loop=1&playlist=qgGK9EpXUEo&playsinline=1"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen
+            title="Personal Film Project Preview">
+          </iframe>
+        </div>
+
+        <div class="project-info">
+          <span class="project-tag">Film Project</span>
+          <h3>Personal Film Project</h3>
+          <p>Live action filmmaking work added to the portfolio alongside FX and simulation projects.</p>
+        </div>
+      </article>
+
     </div>
   </section>
+
+  <!-- =========================================================
+       PART 2 END
+       NEXT PART STARTS WITH INTERACTIVE LAB SECTION
+       ========================================================= -->
+  <!-- =========================================================
+       PART 3 START
+       INTERACTIVE LAB / ABOUT / CONTACT / FOOTER / PROJECT MODAL
+       ========================================================= -->
+
+  <!-- =========================================================
+       INTERACTIVE LAB SECTION
+       ========================================================= -->
 
   <section class="interactive-section" id="interactive">
     <h2 class="section-heading">Interactive Lab</h2>
@@ -1275,6 +1456,10 @@
     </div>
   </section>
 
+  <!-- =========================================================
+       ABOUT SECTION
+       ========================================================= -->
+
   <section class="about-section" id="about">
     <h2 class="section-heading">About</h2>
 
@@ -1304,6 +1489,10 @@
     </div>
   </section>
 
+  <!-- =========================================================
+       CONTACT SECTION
+       ========================================================= -->
+
   <section class="contact-section" id="contact">
     <h2 class="section-heading">Contact</h2>
 
@@ -1315,9 +1504,17 @@
     </div>
   </section>
 
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+
   <footer class="site-footer">
     TWOFOURONEFX Portfolio
   </footer>
+
+  <!-- =========================================================
+       PROJECT MODAL / OVERLAY
+       ========================================================= -->
 
   <div class="project-overlay" id="projectOverlay" aria-hidden="true">
     <div class="project-backdrop" id="projectBackdrop"></div>
@@ -1354,7 +1551,7 @@
             </div>
 
             <div class="project-links">
-              <a href="#" id="projectVimeoLink" target="_blank" rel="noopener noreferrer">Open on Vimeo</a>
+              <a href="#" id="projectVideoLink" target="_blank" rel="noopener noreferrer">Open Project</a>
             </div>
           </div>
         </div>
@@ -1362,7 +1559,20 @@
     </div>
   </div>
 
+  <!-- =========================================================
+       PART 3 END
+       NEXT PART STARTS WITH SCRIPT
+       ========================================================= -->
+  <!-- =========================================================
+       PART 4 START
+       SCRIPT / NAV / MODAL / VIDEO PLAYER / INTERACTIVE LAB
+       ========================================================= -->
+
   <script>
+    /* =========================================================
+       ELEMENT REFERENCES
+       ========================================================= */
+
     const nav = document.getElementById('mainNav');
     const hero = document.getElementById('top');
     const mobileToggle = document.getElementById('mobileToggle');
@@ -1380,7 +1590,7 @@
     const projectRole = document.getElementById('projectRole');
     const projectTools = document.getElementById('projectTools');
     const projectYear = document.getElementById('projectYear');
-    const projectVimeoLink = document.getElementById('projectVimeoLink');
+    const projectVideoLink = document.getElementById('projectVideoLink');
 
     const labCamera = document.getElementById('labCamera');
     const trackingCanvas = document.getElementById('trackingCanvas');
@@ -1415,6 +1625,10 @@
     const smoothingFactor = 0.32;
     const maxMatchDistance = 150;
 
+    /* =========================================================
+       NAVIGATION STATE
+       ========================================================= */
+
     function updateNavState() {
       const heroBottom = hero.offsetTop + hero.offsetHeight;
       const triggerPoint = window.scrollY + nav.offsetHeight;
@@ -1439,6 +1653,10 @@
       }
     });
 
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
+
     function toggleMobileMenu(forceState) {
       const shouldOpen = typeof forceState === 'boolean'
         ? forceState
@@ -1460,6 +1678,10 @@
       });
     });
 
+    /* =========================================================
+       SMOOTH ANCHOR SCROLL
+       ========================================================= */
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const target = document.querySelector(this.getAttribute('href'));
@@ -1477,10 +1699,26 @@
       });
     });
 
-    function buildProjectPlayer(vimeoId) {
+    /* =========================================================
+       PROJECT VIDEO PLAYER
+       Supports Vimeo and YouTube cards
+       ========================================================= */
+
+    function buildProjectPlayer(platform, videoId) {
+      if (platform === 'youtube') {
+        return `
+          <iframe
+            src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1&playsinline=1&rel=0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen
+            title="Project Video Player">
+          </iframe>
+        `;
+      }
+
       return `
         <iframe
-          src="https://player.vimeo.com/video/${vimeoId}?autoplay=1&muted=0&title=0&byline=0&portrait=0"
+          src="https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&title=0&byline=0&portrait=0"
           allow="autoplay; fullscreen; picture-in-picture"
           allowfullscreen
           title="Project Video Player">
@@ -1489,7 +1727,9 @@
     }
 
     function openProject(card) {
-      const vimeoId = card.dataset.vimeoId;
+      const platform = card.dataset.videoPlatform || 'vimeo';
+      const videoId = card.dataset.videoId || card.dataset.vimeoId;
+
       lastFocusedCard = card;
 
       projectMetaMini.textContent = card.dataset.type;
@@ -1498,8 +1738,8 @@
       projectRole.textContent = card.dataset.role;
       projectTools.textContent = card.dataset.tools;
       projectYear.textContent = card.dataset.year;
-      projectVimeoLink.href = card.dataset.link;
-      projectPlayer.innerHTML = buildProjectPlayer(vimeoId);
+      projectVideoLink.href = card.dataset.link;
+      projectPlayer.innerHTML = buildProjectPlayer(platform, videoId);
 
       projectOverlay.classList.add('open');
       projectOverlay.setAttribute('aria-hidden', 'false');
@@ -1524,6 +1764,7 @@
       card.setAttribute('tabindex', '0');
 
       card.addEventListener('click', () => openProject(card));
+
       card.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -1534,6 +1775,10 @@
 
     projectClose.addEventListener('click', closeProject);
     projectBackdrop.addEventListener('click', closeProject);
+
+    /* =========================================================
+       INTERACTIVE LAB / CAMERA SETUP
+       ========================================================= */
 
     function resizeTrackingCanvas() {
       const rect = camStage.getBoundingClientRect();
@@ -1552,6 +1797,7 @@
         currentCameraStream.getTracks().forEach(track => track.stop());
         currentCameraStream = null;
       }
+
       labCamera.srcObject = null;
     }
 
@@ -1594,7 +1840,10 @@
         trackedBlobs = [];
 
         startBlobTrackingLoop();
-        camStatus.textContent = facingMode === 'user' ? 'Front camera live' : 'Rear camera live';
+
+        camStatus.textContent = facingMode === 'user'
+          ? 'Front camera live'
+          : 'Rear camera live';
       } catch (error) {
         console.error('Camera start failed:', error);
         camStatus.textContent = 'Camera access blocked or unavailable';
@@ -1618,6 +1867,10 @@
       clearTrackingOverlay();
       camStatus.textContent = 'Camera stopped';
     }
+
+    /* =========================================================
+       BLOB TRACKING / MOTION DETECTION
+       ========================================================= */
 
     function buildMotionMask(curr, prev) {
       const cols = Math.floor(sampleWidth / cellStep);
@@ -1880,8 +2133,13 @@
       if (trackingAnimationId) {
         cancelAnimationFrame(trackingAnimationId);
       }
+
       trackingAnimationId = requestAnimationFrame(runBlobTracking);
     }
+
+    /* =========================================================
+       FULLSCREEN
+       ========================================================= */
 
     async function toggleFullscreen() {
       try {
@@ -1899,6 +2157,10 @@
       fullscreenBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
       resizeTrackingCanvas();
     }
+
+    /* =========================================================
+       EVENT LISTENERS
+       ========================================================= */
 
     startCameraBtn.addEventListener('click', () => startCamera(currentFacingMode));
     switchCameraBtn.addEventListener('click', switchCamera);
@@ -1941,11 +2203,18 @@
     });
 
     window.addEventListener('scroll', updateNavState);
+
     window.addEventListener('load', () => {
       updateNavState();
       resizeTrackingCanvas();
       updateFullscreenButton();
     });
   </script>
+
+  <!-- =========================================================
+       PART 4 END
+       END OF index.html
+       ========================================================= -->
+
 </body>
 </html>
